@@ -26,6 +26,11 @@ stages:
     type: event-start
     start-date: 2026-05-23T10:00:00+02:00
 
+  - name: "Prelekcja: Karol Bojke z CERT Polska"
+    type: informative
+    start-date: 2026-05-23T12:30:00+02:00
+    end-date: 2026-05-23T13:15:00+02:00
+
   - name: Przerwa obiadowa
     type: informative
     start-date: 2026-05-23T14:00:00+02:00
