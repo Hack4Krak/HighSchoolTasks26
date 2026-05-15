@@ -1,0 +1,22 @@
+services:
+  slowacki-backstage:
+    build: .
+    ports:
+      - target: 31337
+        published: 31338
+        protocol: tcp
+        mode: ingress
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 64M
