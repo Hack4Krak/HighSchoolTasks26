@@ -1,0 +1,21 @@
+$schema: "../schema.json"
+
+id: "slowacki-backstage"
+name: "Kulisy Słowackiego"
+flag_hash: "580ec4e96a3458140e14f72afb84c5c5cab6e6c2781c2cffe59ecc76ba748806"
+difficulty_estimate: "easy"
+labels:
+  - "reverse_engineering"
+  - "pwn"
+
+task_release_phase: main
+
+assets:
+  - description: "Program zaplecza scenicznego [do pobrania i analizy]"
+    path: "slowacki-backstage"
+
+display:
+  # Teatr im. Juliusza Słowackiego w Krakowie
+  icon_coordinates:
+    x: 19.943024
+    y: 50.063954
