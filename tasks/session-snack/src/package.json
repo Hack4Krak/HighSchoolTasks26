@@ -1,5 +1,5 @@
 {
-  "name": "1-gimme-a-cookie",
+  "name": "session-snack",
   "module": "src/index.ts",
   "type": "module",
   "private": true,
@@ -24,7 +24,7 @@
     "zod": "^4.4.3"
   },
   "scripts": {
-    "dev": "concurrently \"bunx @tailwindcss/cli -i src/frontend/styles/tailwind.css -o src/frontend/styles/style.css --watch\" \"cd src && bun run index.ts\"",
+    "dev": "concurrently \"bunx @tailwindcss/cli -i src/frontend/styles/tailwind.css -o src/frontend/styles/style.css --watch\" \"bun run index.ts\"",
     "build": "tsc && cp -r src/frontend dist/frontend && bunx @tailwindcss/cli -i src/frontend/styles/tailwind.css -o dist/frontend/styles/style.css --minify",
     "start": "cd dist && node index.js"
   }
