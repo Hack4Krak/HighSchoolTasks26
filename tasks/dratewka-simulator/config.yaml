@@ -1,0 +1,16 @@
+$schema: "../schema.json"
+
+id: "dratewka-simulator"
+name: "Symulator Szewczyka Dratewki"
+flag_hash: "9e03c9e9e9e502a29cded9f3c26d9a1b858eaa46f08b2ddc987bc18831834b71"
+difficulty_estimate: "easy"
+labels:
+  - "games"
+
+task_release_phase: main
+
+display:
+  # Wawel
+  icon_coordinates:
+    x: 19.933603
+    y: 50.053019

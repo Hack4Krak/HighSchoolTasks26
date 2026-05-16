@@ -1,0 +1,41 @@
+services:
+  dratewka-simulator:
+    image: itzg/minecraft-server:stable-java25-graalvm
+    stdin_open: true
+    ports:
+      - target: 25565
+        published: 25565
+        protocol: tcp
+        mode: ingress
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "2"
+          memory: 2G
+    environment:
+      EULA: "TRUE"
+      TYPE: "PURPUR"
+      MEMORY: "2G"
+      USE_MEOWICE_FLAGS: "true"
+      USE_SIMD_FLAGS: "true"
+      ONLINE_MODE: "false"
+      DIFFICULTY: "hard"
+      GAMEMODE: "survival"
+      MOTD: "czas leci!!!"
+      VIEW_DISTANCE: "8"
+      SIMULATION_DISTANCE: "8"
+      SPAWN_PROTECTION: "0"
+      BUG_REPORT_LINK: "https://discord.gg/ASPqckzEd8"
+      RESOURCE_PACK: "https://cdn.modrinth.com/data/K4CZat30/versions/OmbYrI4q/respack.zip"
+      ENFORCE_SECURE_PROFILE: "false"
+      RCON_CMDS_ON_CONNECT: |-
+        demo @a
+    volumes:
+      - dratewka-simulator:/data
+
+volumes:
+  dratewka-simulator:
