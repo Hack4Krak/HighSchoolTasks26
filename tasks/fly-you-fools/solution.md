@@ -1,65 +1,28 @@
 ## Opis
 
-Animacja w Scratchu która była w zadaniu miała kilka wad implementacujnych:
-1. ciągłe przerenderowywanie sceny
-2. wielkie liczby w javascriptcie zamieniają się w pewnym momencie w `Infinity` lub tracą dokładność
-3. liczenie ln(e^x) *potęgowało* ten problem (rozumiecie, potęgowało bo e^x).
+Otrzymaliście animację zrobioną w scratchu, skompilowaną za pomocą [Turbowarpa](https://packager.turbowarp.org).
 
 ## Rozwiązanie
 
-Najprostszym rozwiązaniem było przepisać kod scratcha do Pythona.
-Aby nie musieć ręcznie implementować za pomocą trygonometrii obrotów, można użyć biblioteki `turtle`.
+Aby poprawić wydajność animacji można użyć [rozpakowywacza](https://turbowarp.github.io/unpackager/) (tak to się chyba tłumaczy, prawda?) turbowarpa.
+Problemem było to, że podmieniona została nazwa jednej funkcji - `decodeChunk` na `dc`. Sprawiło to, że nasz program nie radził sobie z grą.
 
-Oto przykładowe rozwiązanie którego przetwarzanie trwa kilka sekund:
-```python
-from math import floor
-import turtle
+Wystarczyło przywrócić jej nazwę, dzięki czemu dostajemy plik `.sb3`, który można zaimportować do Scratcha.
 
-t = turtle.Turtle()
-t.speed(0)
-t.screen.screensize(480, 360)
+Głównym problemem wydajnościowym jest pisak - przerenderowanie sceny przy każdym powtórzeniu pętli mocno go spowolniło.
+Animacja ma też błąd implementacyjny - liczy `ln(e^x) = x`, który jest zamieniany przez javascripta w `Infinity`.
 
-# kluczowe przy wyliczaniu jest wyłączenie odświerzania,
-# ponieważ to ono najbardziej opóźnia program
-turtle.tracer(0)
-
-t.left(90)
-
-t.right(5.4)
-angle = 5.4
-
-c = 0
-i = 1
-res = "hack4KrakCTF{"
-l = [694202137, 1233211239635, 9182737465, 501827493764]
-
-for v in l:
-    m = 8947112
-    while not t.xcor() > m:
-        t.forward(6)
-        t.setx(max(-240, min(240, t.xcor())))
-        t.sety(max(-180, min(180, t.ycor())))
-
-        turn = angle * (t.xcor() + t.ycor())
-        t.right(turn)
-        angle = (angle + turn) % 360
-        if angle > 180:
-            angle = angle - 360
-
-        m -= abs(t.xcor()) + abs(t.ycor())
-        c += 1
-    res += str(floor(v / c))
-    turtle.update()
-print(res + "}")
-```
+Po tych dwóch poprawkach otrzymujemy `hack4KrakCTF{1587815024503859493813336131598}` - naszą flagę.
 
 ## AI
 
 Nie poradziły sobie:
-- ChatGPT Darmowy
+- ChatGPT Pro - Uznał że zadanie to test turinga i stwierdził że kocha [Jožina z bažin](https://www.youtube.com/watch?v=qCmRga2fIy0)
 - DeepSeek v4 Flash Free (opencode)
-(Norbiros daj to jakiemuś bardziej kompetentnemu)
 
 ## Informacje dodatkowe
 
 Użyty soundtrack: [Benny Hill Theme](https://www.youtube.com/watch?v=MK6TXMsvgQg)
+Mapa w tle: [OpenStreetMap](https://osm.org)
+
+Oryginalny projekt na scratchu: https://scratch.mit.edu/projects/1319375512/
