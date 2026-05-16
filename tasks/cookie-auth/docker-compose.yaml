@@ -1,0 +1,16 @@
+services:
+  cookie-auth:
+    image: cookie-auth
+    build: .
+    networks:
+      - ctf-services-net
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.cookie-auth.rule=Host(`session-snack.hack4krak.pl`)"
+        - "traefik.http.services.cookie-auth.loadbalancer.server.port=3000"
+
+networks:
+  ctf-services-net:
+    external: true
+    name: ctf-services-net
