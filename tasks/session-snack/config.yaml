@@ -10,6 +10,7 @@ labels:
 task_release_phase: main
 
 display:
+  # Zajezdnia Podgórze
   icon_coordinates:
-    x: 24
-    y: 20
+    x: 19.934006
+    y: 50.031480
