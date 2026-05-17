@@ -14,7 +14,7 @@ Flagę dostaniecie jak tylko przejdziecie grę.
 
 ## Wskazówki
 
-- Jeśli nie masz kupionej gry, możesz uruchomić ją w ten sposób:
+- Serwer jest non-premium, więc nie trzeba miec kupionej gry, żeby na niego wejść. Możesz pobrać i uruchomić ją w ten sposób:
 ```bash
 git clone https://github.com/FabricMC/fabric-example-mod.git && cd fabric-example-mod && ./gradlew runClient
 ```

@@ -12,5 +12,5 @@ task_release_phase: main
 display:
   # Wawel
   icon_coordinates:
-    x: 19.933603
-    y: 50.053019
+    x: 19.935122
+    y: 50.053922
