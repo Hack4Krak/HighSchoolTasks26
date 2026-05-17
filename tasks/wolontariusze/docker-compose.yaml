@@ -1,0 +1,15 @@
+services:
+  wolontariusze:
+    image: wolontariusze
+    build: .
+    networks:
+      - ctf-services-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wolontariusze.rule=Host(`wolontariusze.hack4krak.pl`)"
+      - "traefik.http.services.wolontariusze.loadbalancer.server.port=4567"
+
+networks:
+  ctf-services-net:
+    external: true
+    name: bridge
