@@ -17,6 +17,8 @@ Waszym zadaniem będzie włamanie się na serwer elektrociepłowni Krakowskiej i
 4. Zidentyfikuj usługi sieciowe na serwerze.
 5. Znajdź sposób na uzyskanie dostępu do serwera oraz zdobycie flagi.
 
+W pliku log.txt znajduje się fragment logów aplikacji. Może znajdziesz tam coś przydatnego
+
 > [!CAUTION]
 > Pamiętaj aby nie udostępniać swojego adresu serwera nikomu spoza twojego zespołu, ani nie próbować atakować serwerów innych drużyn!
 

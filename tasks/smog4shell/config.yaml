@@ -9,6 +9,10 @@ labels:
 
 task_release_phase: main
 
+assets:
+  - description: "Fragment logów aplikacji"
+    path: "log.txt"
+
 display:
   #proposed location: Elektrociepłownia Kraków
   icon_coordinates:
