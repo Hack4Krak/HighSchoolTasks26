@@ -1,0 +1,21 @@
+# Lines that start with # are comments, and PackSquash ignores them.
+# You can also start a comment in the middle of a line with #, that
+# spans until the end of the line
+
+# Global options
+pack_directory = './respack/'
+output_file_path = './respack.zip'
+recompress_compressed_files = true
+zip_compression_iterations = 5
+automatic_minecraft_quirks_detection = true
+# The value of this option is ignored due to automatic quirk detection
+# being enabled, but this usually does not matter
+work_around_minecraft_quirks = ['grayscale_images_gamma_miscorrection', 'java8_zip_parsing']
+allow_mods = ['OptiFine']
+skip_pack_icon = false
+validate_pack_metadata_file = true
+ignore_system_and_hidden_files = false
+zip_spec_conformance_level = 'disregard'
+
+size_increasing_zip_obfuscation = true
+never_store_squash_times = true
