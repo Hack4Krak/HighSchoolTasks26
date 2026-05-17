@@ -1,0 +1,21 @@
+$schema: "../schema.json"
+
+id: "fly-you-fools"
+name: "Ucieczka po Krakowie"
+flag_hash: "7ce5c32a9743b27ba75cae0f376d25fb9d15e0f79aa31e7408c7aafe6df5c2c0"
+difficulty_estimate: "easy"
+labels:
+  - "misc"
+  - "reverse_engineering"
+
+task_release_phase: main
+
+assets:
+  - description: "Animacja"
+    path: "fly-you-fools.html"
+
+display:
+  # Urząd miasta Krakowa
+  icon_coordinates:
+    x: 19.936725
+    y: 50.058892
