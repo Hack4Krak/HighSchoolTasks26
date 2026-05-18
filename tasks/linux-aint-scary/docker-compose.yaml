@@ -1,0 +1,22 @@
+services:
+  linux-aint-scary:
+    build: .
+    image: linux-aint-scary:latest
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /run
+      - /tmp
+      - /var/cache/nginx
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    network_mode: bridge
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=bridge"
+        - "traefik.http.routers.linux-aint-scary.rule=Host(`linux-aint-scary.hack4krak.pl`)"
+        - "traefik.http.routers.linux-aint-scary.entrypoints=web"
+        - "traefik.http.services.linux-aint-scary.loadbalancer.server.port=8080"
