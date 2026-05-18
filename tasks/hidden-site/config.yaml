@@ -1,0 +1,17 @@
+$schema: "../schema.json"
+
+id: "hidden-site"
+name: "Coś czego nie ma..."
+flag_hash: "72412ad8387e31782da9131c7557d9b85bcde747bddf25f12a5711bd7fe0c503"
+
+difficulty_estimate: easy
+labels:
+  - misc
+
+display:
+  icon_coordinates:
+    #proposed location: NIE MAM POJĘCIA
+    x: 0
+    y: 0
+
+

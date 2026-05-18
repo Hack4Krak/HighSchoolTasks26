@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Access</title>
+    <style>
+        :root {
+            --bg-color: #0c0c0c;
+            --text-color: #00ff41;
+            --font-family: 'Fira Code', 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        #terminal {
+            flex-grow: 1;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            padding-bottom: 20px;
+        }
+
+        .line {
+            margin: 2px 0;
+            opacity: 0;
+            animation: fadeIn 0.1s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .command-input-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .prompt {
+            margin-right: 10px;
+            user-select: none;
+        }
+
+        #commandInput {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-family: var(--font-family);
+            font-size: 1rem;
+            outline: none;
+            flex-grow: 1;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 18px;
+            background-color: var(--text-color);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal"></div>
+    <div class="command-input-container">
+        <span class="prompt">user@h4k:~$</span>
+        <input type="text" id="commandInput" autofocus spellcheck="false" autocomplete="off">
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const commandInput = document.getElementById('commandInput');
+        const flag = "hack4KrakCTF{a_j3dnak_t4_5tR0n4_15tn13j3}";
+
+        const bootSequence = [
+            "Initializing kernel 6.5.0-h4k...",
+            "Loading system modules...",
+            "Mounted /dev/sda1 on /",
+            "Starting network services...",
+            "Connection established to remote node.",
+            "Welcome to Hack4Krak Terminal v2.0",
+            "Type 'help' to see available commands."
+        ];
+
+        function printLine(text, type = 'default') {
+            const line = document.createElement('div');
+            line.className = 'line';
+            if (type === 'error') line.style.color = '#ff3e3e';
+            if (type === 'success') line.style.color = '#00ffd5';
+            line.textContent = text;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        async function runBoot() {
+            for (const text of bootSequence) {
+                printLine(text);
+                await new Promise(r => setTimeout(r, Math.random() * 400 + 100));
+            }
+        }
+
+        const commands = {
+            'help': () => "Available commands: help, clear, flag, whoami, ls, date",
+            'clear': () => {
+                terminal.innerHTML = '';
+                return '';
+            },
+            'whoami': () => "guest_user@hack4krak",
+            'ls': () => "flag.txt  readme.md  scripts/",
+            'date': () => new Date().toString(),
+            'flag': () => {
+                return `Accessing encrypted sector...\nDecryption successful: ${flag}`;
+            }
+        };
+
+        commandInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = commandInput.value.trim().toLowerCase();
+                const fullLine = `user@h4k:~$ ${commandInput.value}`;
+                printLine(fullLine);
+
+                if (cmd !== '') {
+                    if (commands[cmd]) {
+                        const result = commands[cmd]();
+                        if (result) printLine(result, cmd === 'flag' ? 'success' : 'default');
+                    } else {
+                        printLine(`Command not found: ${cmd}. Type 'help' for options.`, 'error');
+                    }
+                }
+
+                commandInput.value = '';
+            }
+        });
+
+        // Focus input on click anywhere
+        document.addEventListener('click', () => commandInput.focus());
+
+        runBoot();
+    </script>
+</body>
+</html>
