@@ -8,6 +8,13 @@
       "when": 1778958287149,
       "tag": "0000_tidy_jack_flag",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1779187210711,
+      "tag": "0001_workable_vindicator",
+      "breakpoints": true
     }
   ]
 }
