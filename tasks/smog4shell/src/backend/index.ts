@@ -1,22 +1,29 @@
-import express from "express"
+import * as express from "express"
 import path from "path";
 import Docker from "dockerode";
 import { db } from "../db";
 import {containers} from "../db/schema.ts";
 import { fileURLToPath } from "url";
-import tar from "tar-fs";
 import { eq, lte } from "drizzle-orm"
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import crypto from "crypto";
+import * as z from "zod"
+import cookieParser from "cookie-parser"
+import * as tar from "tar-fs"
 
 await migrate(db, { migrationsFolder: "./drizzle" });
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express()
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.static(path.resolve( __dirname, "../frontend")));
 app.use(express.static(path.resolve( __dirname, "../frontend/assets")));
 app.set("trust proxy", 1);
+
+const cookiesSchema = z.object({
+    sessionId: z.string(),
+})
 
 const docker = new Docker({ socketPath: "/var/run/docker.sock" });
 
@@ -110,7 +117,7 @@ async function isContainerRunning(id: string): Promise<boolean> {
     }
 }
 
-async function run(ip: string | null) {
+async function run(session: string) {
     const uuid = crypto.randomUUID().slice(0, 8);
 
     await ensureImage(IMAGE_NAME, IMAGE_CONTEXT_DIR);
@@ -175,7 +182,7 @@ async function run(ip: string | null) {
 
     await db.insert(containers).values({
         id: uuid,
-        user_ip: ip,
+        session: session,
         createdAt: new Date(),
     });
 
@@ -183,45 +190,45 @@ async function run(ip: string | null) {
 
 }
 
-app.post("/api/create", async (req, res) => {
-    try {
-        let ip = req.ip;
-        if (ip !== undefined) {
-            const container = await db
-                .select()
-                .from(containers)
-                .where(eq(containers.user_ip, ip))
-                .limit(1);
-            if (container.length > 0 && container[0]) {
-                const existingId = container[0].id;
-                if (existingId && await isContainerRunning(existingId)) {
-                    return res.json({
-                        url: existingId + ".solr.hack4krak.pl",
-                    });
-                }
-                const uuid = await run(ip)
-                await db.update(containers)
-                    .set({ id: uuid, createdAt: new Date() })
-                    .where(eq(containers.user_ip, ip));
-                return res.json({
-                    url: uuid + ".solr.hack4krak.pl",
-                });
-            } else {
-                const uuid = await run(ip)
-                return res.json({
-                    url: uuid + ".solr.hack4krak.pl",
-                });
-            }
+app.post("/api/login", async (req, res) => {
+    if(req.cookies.session){
+        return res.json({ok: true})
+    } else {
+        let sessionId = crypto.randomUUID()
+        let cookie = JSON.stringify({sessionId: sessionId})
+        res.cookie("session", cookie)
+        return res.json({ok: true})
+    }
+})
 
-        } else {
-            const uuid = await run(null)
-            return res.json({
-                url: uuid + ".solr.hack4krak.pl",
-            });
+app.post("/api/create", async (req, res) => {
+    const session = req.cookies.session
+    let parsedSession = cookiesSchema.safeParse(session);
+    if(!parsedSession.success){
+        return res.status(400).json({ error: "Invalid session cookie" });
+    }
+    const SESSION = parsedSession.data
+    let userContainers = await db
+        .select()
+        .from(containers)
+        .where(eq(containers.session, SESSION.sessionId));
+
+    let userDomainId = null
+    for (let userContainer of userContainers){
+        if(await isContainerRunning(userContainer.id)){
+            userDomainId = userContainer.id
+        }else{
+            await db
+                .delete(containers)
+                .where(eq(containers.id, userContainer.id));
         }
-    } catch (error) {
-        console.error("Error creating container:", error);
-        res.status(500).json({ error: "Internal server error" + error });
+    }
+
+    if(userDomainId) {
+        return res.json({url: `${userDomainId}.solr.hack4krak.pl`})
+    }else{
+        const newId = await run(SESSION.sessionId)
+        return res.json({url: `${newId}.solr.hack4krak.pl`})
     }
 
 })
