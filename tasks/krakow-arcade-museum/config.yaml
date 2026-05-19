@@ -1,0 +1,21 @@
+$schema: "../schema.json"
+
+id: "krakow-arcade-museum"
+name: "Krakow Arcade Museum"
+flag_hash: "e3b871473261c03c6d8711697a0ce95a2a63fadfd621bb4b65ee6e19ad056bab"
+difficulty_estimate: "easy"
+labels:
+  - "games"
+  - "misc"
+
+authors:
+  - name: "Norbiros"
+    url: "https://norbiros.dev"
+
+task_release_phase: main
+
+display:
+  # Krakow Arcade Museum, Centralna 41A
+  icon_coordinates:
+    x: 20.01397
+    y: 50.06777
