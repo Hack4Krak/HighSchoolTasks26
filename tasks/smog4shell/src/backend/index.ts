@@ -12,7 +12,21 @@ import cookieParser from "cookie-parser"
 import tar from "tar-fs"
 let buildPromise: Promise<void> | null = null;
 
-await migrate(db, { migrationsFolder: "./drizzle" });
+async function migrateWithRetry() {
+    let lastError: unknown;
+    for (let attempt = 1; attempt <= 30; attempt++) {
+        try {
+            await migrate(db, { migrationsFolder: "./drizzle" });
+            return;
+        } catch (error) {
+            lastError = error;
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+    }
+    throw lastError;
+}
+
+await migrateWithRetry();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express()
@@ -32,6 +46,22 @@ const IMAGE_NAME = "solr-log4shell-server";
 const IMAGE_CONTEXT_DIR = path.resolve(process.cwd(), "flag-server");
 const TARGET_NETWORK = "bridge";
 const TIMEOUT_MS = 60 * 60 * 1000;
+const MAX_ACTIVE_CONTAINERS = Number(process.env.MAX_ACTIVE_CONTAINERS ?? "10");
+let createQueue: Promise<void> = Promise.resolve();
+
+async function withCreateLock<T>(fn: () => Promise<T>): Promise<T> {
+    const previous = createQueue;
+    let release!: () => void;
+    createQueue = new Promise<void>((resolve) => {
+        release = resolve;
+    });
+    await previous;
+    try {
+        return await fn();
+    } finally {
+        release();
+    }
+}
 
 async function cleanupExpiredContainers() {
     const expiredAt = new Date(Date.now() - TIMEOUT_MS);
@@ -89,15 +119,20 @@ async function buildImage(name: string, contextDir: string): Promise<void> {
 }
 
 async function ensureImage(name: string, contextDir: string): Promise<void> {
-    if (await imageExists(name)) return;
+    if (await imageExists(name)) {
+        console.log(`Docker image ${name} already exists`);
+        return;
+    }
 
     if (!buildPromise) {
+        console.log(`Building Docker image ${name}`);
         buildPromise = buildImage(name, contextDir).finally(() => {
             buildPromise = null;
         });
     }
 
     await buildPromise;
+    console.log(`Docker image ${name} is ready`);
 }
 
 
@@ -126,15 +161,34 @@ async function isContainerRunning(id: string): Promise<boolean> {
     }
 }
 
+async function getActiveContainerCount(): Promise<number> {
+    const knownContainers = await db.select().from(containers);
+    let activeCount = 0;
+
+    for (const knownContainer of knownContainers) {
+        if (await isContainerRunning(knownContainer.id)) {
+            activeCount += 1;
+        } else {
+            await db.delete(containers).where(eq(containers.id, knownContainer.id));
+        }
+    }
+
+    return activeCount;
+}
+
 async function run(session: string) {
     const uuid = crypto.randomUUID().slice(0, 8);
 
+    console.log(`Creating Solr instance ${uuid} for session ${session}`);
     await ensureImage(IMAGE_NAME, IMAGE_CONTEXT_DIR);
+    console.log(`Ensuring Docker network ${TARGET_NETWORK}`);
     await ensureNetwork(TARGET_NETWORK);
 
+    console.log(`Creating container ${uuid}-solr-log4shell-server`);
     const container = await docker.createContainer({
         Image: IMAGE_NAME,
         name: `${uuid}-solr-log4shell-server`,
+        Env: ["SOLR_JAVA_MEM=-Xms128m -Xmx384m"],
 
         ExposedPorts: {
             "8983/tcp": {},
@@ -146,9 +200,9 @@ async function run(session: string) {
             NanoCpus: 0.5e9,          // 0.5 vCPU (wartość w nanosekundach CPU/s)
 
             // RAM
-            Memory: 1024 * 1024 * 1024,       // 1 GB twardy limit
-            MemorySwap: 1024 * 1024 * 1024,   // wyłącza swap (= Memory → brak swapu)
-            MemoryReservation: 512 * 1024 * 1024, // soft limit (scheduler hint)
+            Memory: 512 * 1024 * 1024,
+            MemorySwap: 512 * 1024 * 1024,
+            MemoryReservation: 256 * 1024 * 1024,
 
             // /dev/shm for JVM shared memory
             ShmSize: 256 * 1024 * 1024,
@@ -178,6 +232,7 @@ async function run(session: string) {
 
 
     await container.start();
+    console.log(`Started container ${uuid}-solr-log4shell-server`);
 
 
     setTimeout(async () => {
@@ -196,6 +251,7 @@ async function run(session: string) {
         createdAt: new Date(),
     });
 
+    console.log(`Registered Solr instance ${uuid}`);
     return uuid;
 
 }
@@ -212,42 +268,59 @@ app.post("/api/login", async (req, res) => {
 })
 
 app.post("/api/create", async (req, res) => {
-    const rawSession = req.cookies.session
-    if(!rawSession){
-        return res.status(400).json({ error: "Cookie required"})
-    }
-    let jsonParsedSession
     try {
-        jsonParsedSession = JSON.parse(rawSession)
-    } catch {
-        return res.status(400).json({ error: "Invalid session cookie" })
-    }
-    let parsedSession = cookiesSchema.safeParse(jsonParsedSession)
-    if(!parsedSession.success){
-        return res.status(400).json({ error: "Invalid session cookie" });
-    }
-    const SESSION = parsedSession.data
-    let userContainers = await db
-        .select()
-        .from(containers)
-        .where(eq(containers.session, SESSION.sessionId));
+        return await withCreateLock(async () => {
+            const rawSession = req.cookies.session
+            if(!rawSession){
+                return res.status(400).json({ error: "Cookie required"})
+            }
+            let jsonParsedSession
+            try {
+                jsonParsedSession = JSON.parse(rawSession)
+            } catch {
+                return res.status(400).json({ error: "Invalid session cookie" })
+            }
+            let parsedSession = cookiesSchema.safeParse(jsonParsedSession)
+            if(!parsedSession.success){
+                return res.status(400).json({ error: "Invalid session cookie" });
+            }
+            const SESSION = parsedSession.data
+            let userContainers = await db
+                .select()
+                .from(containers)
+                .where(eq(containers.session, SESSION.sessionId));
 
-    let userDomainId = null
-    for (let userContainer of userContainers){
-        if(await isContainerRunning(userContainer.id)){
-            userDomainId = userContainer.id
-        }else{
-            await db
-                .delete(containers)
-                .where(eq(containers.id, userContainer.id));
-        }
-    }
+            let userDomainId = null
+            for (let userContainer of userContainers){
+                if(await isContainerRunning(userContainer.id)){
+                    userDomainId = userContainer.id
+                }else{
+                    await db
+                        .delete(containers)
+                        .where(eq(containers.id, userContainer.id));
+                }
+            }
 
-    if(userDomainId) {
-        return res.json({url: `${userDomainId}.solr.hack4krak.pl`})
-    }else{
-        const newId = await run(SESSION.sessionId)
-        return res.json({url: `${newId}.solr.hack4krak.pl`})
+            if(userDomainId) {
+                return res.json({url: `${userDomainId}.solr.hack4krak.pl`})
+            }
+
+            const activeContainerCount = await getActiveContainerCount();
+            if (activeContainerCount >= MAX_ACTIVE_CONTAINERS) {
+                console.error(
+                    `Active Solr container limit reached: ${activeContainerCount}/${MAX_ACTIVE_CONTAINERS}`,
+                );
+                return res.status(429).json({
+                    error: "Too many active instances are running. Please contact the administrators.",
+                });
+            }
+
+            const newId = await run(SESSION.sessionId)
+            return res.json({url: `${newId}.solr.hack4krak.pl`})
+        });
+    } catch (error) {
+        console.error("Failed to create container:", error);
+        return res.status(500).json({ error: "Failed to create instance" });
     }
 
 })

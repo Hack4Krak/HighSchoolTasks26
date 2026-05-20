@@ -3,14 +3,13 @@ services:
     build: .
     image: smog4shell
     environment:
-      DATABASE_URL: postgres://ctf:ctf@db:5432/ctf
+      DATABASE_URL: postgres://ctf:ctf@hack4krak-task-smog4shell_db:5432/ctf
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /run/user/1000/docker.sock:/var/run/docker.sock
     depends_on:
       - db
     networks:
       - ctf-services-net
-      - internal
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.smog4shell.rule=Host(`smog4shell.hack4krak.pl`)"
@@ -25,7 +24,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
-      - internal
+      - ctf-services-net
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ctf"]
       interval: 5s
@@ -39,5 +38,3 @@ networks:
   ctf-services-net:
     external: true
     name: bridge
-  internal:
-    internal: true
