@@ -8,7 +8,7 @@ Umożliwia to atakującemu uzyskanie kontroli nad podatnym serwerem np. poprzez 
 Po wygenerowaniu swojej instancji zadania, należało zidentyfikowac usługi sieciowe działające na serwerze.
 W tym celu można było użyć narzędzi takich jak `nmap`.
 
-Na serwerze działała usługa HTTP na porcie 8983, która którą był Solr 8.11.0 - popularna
+Na serwerze działała usługa HTTP na porcie 8983, która był Solr 8.11.0 - popularna
 platforma do wyszukiwania i indeksowania danych, która korzystała z podatnej wersji Log4j.
 Podatność ta mogła zostać wykryta przy użyciu narzędzi takich jak [Metasploit Framework](https://www.metasploit.com/), a także poprzez podstawowy research w internecie.
 

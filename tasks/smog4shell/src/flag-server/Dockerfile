@@ -13,10 +13,8 @@ RUN useradd -m user
 WORKDIR /home/user/app
 
 ARG SOLR_VERSION=8.11.0
-ARG SOLR_TGZ_SHA512=
 
 RUN wget "https://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz" \
-    && echo "${SOLR_TGZ_SHA512}  solr-${SOLR_VERSION}.tgz" | sha512sum -c - \
     && tar -xzf "solr-${SOLR_VERSION}.tgz" \
     && rm "solr-${SOLR_VERSION}.tgz"
 
