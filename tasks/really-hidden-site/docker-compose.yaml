@@ -1,7 +1,7 @@
 services:
-  ssl-cert:
+  really-hidden-site:
     build: .
-    image: ssl-cert
+    image: really-hidden-site:latest
     networks:
       - ctf-services-net
 

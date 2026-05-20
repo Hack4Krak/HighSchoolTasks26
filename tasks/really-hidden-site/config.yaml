@@ -1,0 +1,16 @@
+$schema: "../schema.json"
+
+id: "really-hidden-site"
+name: "Really Hidden Site"
+flag_hash: "85c6e96acbe70054952d4d7298935270c95cc6086523645a07fc81dcef61a25c"
+difficulty_estimate: "easy"
+labels:
+  - "web"
+
+task_release_phase: main
+
+display:
+  #Błonia
+  icon_coordinates:
+    x: 50.06014117771099
+    y: 19.9095209614547

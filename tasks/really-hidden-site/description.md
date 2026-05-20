@@ -1,8 +1,8 @@
->
->
->
->
->
+> Znikło... znowu
+> 
+> Prawie jak pieniądze z komunii.
+> 
+> Różnica jest taka że to da się odnaleźć.
 
 ## Zadanie
 
