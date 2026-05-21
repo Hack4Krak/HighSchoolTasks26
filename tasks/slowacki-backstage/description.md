@@ -8,7 +8,7 @@
 W załączniku znajduje się program `slowacki-backstage`. Taki sam program działa na serwerze zadania:
 
 ```bash
-nc hack4krak.pl 31338
+nc slowacki-backstage.hack4krak.pl 31338
 ```
 
 Flagi nie ma w pobranym pliku.
