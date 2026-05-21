@@ -5,7 +5,7 @@ import { db } from "../db";
 import {containers} from "../db/schema.ts";
 import { fileURLToPath } from "url";
 import { eq, lte } from "drizzle-orm"
-import { migrate } from "drizzle-orm/node-postgres/migrator";
+import { migrate } from "drizzle-orm/bun-sqlite/migrator";
 import crypto from "crypto";
 import z from "zod"
 import cookieParser from "cookie-parser"
