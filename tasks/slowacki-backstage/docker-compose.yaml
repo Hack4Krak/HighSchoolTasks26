@@ -1,6 +1,7 @@
 services:
   slowacki-backstage:
     build: .
+    image: slowacki-backstage:latest
     ports:
       - target: 31337
         published: 31338
