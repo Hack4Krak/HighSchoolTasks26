@@ -1,0 +1,20 @@
+$schema: "../schema.json"
+
+id: "mocak"
+name: "MOCAK"
+flag_hash: "6967805265cb0c0d2955d9d1cc31a3e97097a597daff3ddd0c62f739e284e672"
+difficulty_estimate: "medium"
+labels:
+  - "misc"
+
+task_release_phase: main
+
+assets:
+  - description: "Zdjęcie z naszej wycieczki w MOCAKu"
+    path: "mocak.png"
+
+display:
+  # Proposed location: MOCAK
+  icon_coordinates:
+    x: 45
+    y: 55
