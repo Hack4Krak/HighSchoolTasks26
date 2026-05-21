@@ -4,20 +4,23 @@ services:
     container_name: traefik
     restart: always
     command:
-      - "--providers.swarm=true"
-      - "--providers.swarm.endpoint=unix:///var/run/docker.sock"
-      - "--providers.swarm.exposedbydefault=false"
-      - "--providers.swarm.network=ctf-services-net"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.docker.network=bridge"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.solr.address=:8983"
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
-      - "--certificatesresolvers.le.acme.tlschallenge=true"
-      - "--certificatesresolvers.le.acme.email=admin@hack4krak.pl"
-      - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
-      - "--entrypoints.websecure.http.tls.certresolver=le"
       - "--entrypoints.websecure.http.tls=true"
+      - --providers.file.directory=/etc/traefik/dynamic
+      - --providers.file.watch=true
+      - "--entrypoints.metrics.address=:9300"
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.entrypoint=metrics"
+      - "--metrics.prometheus.addEntryPointsLabels=true"
+      - "--metrics.prometheus.addServicesLabels=true"
+      - "--metrics.prometheus.addRoutersLabels=true"
     ports:
       - target: 80
         published: 80
@@ -33,17 +36,13 @@ services:
         mode: ingress
     volumes:
       - "./letsencrypt:/letsencrypt"
+      - /etc/traefik/certs:/etc/traefik/certs:ro
+      - /etc/traefik/dynamic:/etc/traefik/dynamic:ro
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
-      - ctf-services-net
-    deploy:
-      placement:
-        constraints:
-          - node.role == manager
-      labels:
-        - "traefik.enable=true"
-        - "traefik.swarm.network=ctf-services-net"
+      - bridge-net
 
 networks:
-  ctf-services-net:
+  bridge-net:
     external: true
+    name: bridge
