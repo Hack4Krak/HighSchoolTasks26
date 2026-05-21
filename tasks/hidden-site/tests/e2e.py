@@ -2,11 +2,12 @@ import pytest
 import requests
 
 TOR_PROXY = {
-    "http":  "socks5h://127.0.0.1:9050",
+    "http": "socks5h://127.0.0.1:9050",
     "https": "socks5h://127.0.0.1:9050",
 }
 
 ONION_URL = "http://qzr7oadrw6tlzlpodlf27wau63h5kn2znbjgs5t5qvcavsgoyiteuvad.onion"
+
 
 def test_onion_service_is_reachable():
     try:

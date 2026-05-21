@@ -1,8 +1,7 @@
-# Coś czego nie ma...
+> Słyszeliście kiedyś o rzeczach których nikt nie widział? </br>
+> Przykładem tego mogą być praktycznie wsystkie obietnice wyborcze, ale nie o tym będzie to zadanie.
 
-Słyszeliście kiedyś o rzeczach których nikt nie widział? </br>
-Przykładem tego mogą być obietnice wyborcze Donalda Tuska, ale nie o tym będzie to zadanie. </br></br>
-
+## Zadanie
 Ostatnio pewna osoba poprosiła mnie o pomoc w otworzeniu linku który wyglądał tak:
 ```
 qzr7oadrw6tlzlpodlf27wau63h5kn2znbjgs5t5qvcavsgoyiteuvad.onion
@@ -12,6 +11,9 @@ Niestety mój kąkuter nie był skory do współpracy i po całej nieprzespanej 
 Może Tobie pójdzie lepiej...
 
 Podobno znajduje się tam coś ciekawego
+
+## Wskazówki
+ Zwróć uwagę na rozszerzenie domeny podanego linku.
 
 ---
 
