@@ -31,6 +31,7 @@ dev = [
     "pytest-timeout>=2.3.1",
     "pre-commit>=4.5.1",
     "ruff>=0.9.5",
+    "pysocks>=1.7.1",
 ]
 
 [project.urls]
@@ -40,7 +41,7 @@ Homepage = "https://github.com/Hack4Krak/TasksTemplate"
 toolbox = "toolbox.main:app"
 
 [project.optional-dependencies]
-test = ["pytest"]
+test = ["pytest", "pysocks>=1.7.1"]
 
 [tool.pytest.ini_options]
 testpaths = ["toolbox/tests/", "tasks/*/tests/"]
