@@ -12,7 +12,6 @@ services:
       - ctf-services-net
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=ctf-services-net"
       - "traefik.http.routers.smog4shell.rule=Host(`smog4shell.hack4krak.pl`)"
       - "traefik.http.services.smog4shell.loadbalancer.server.port=3000"
 volumes:
@@ -21,3 +20,5 @@ volumes:
 networks:
   ctf-services-net:
     external: true
+    name: bridge
+
