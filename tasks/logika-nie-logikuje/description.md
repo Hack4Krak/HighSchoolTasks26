@@ -13,4 +13,4 @@ Po odnalezieniu odpowiedniego wejścia należy stworzyć z niego flagę przy uż
 Flagę należy przesłać w formacie `hack4KrakCTF{[KLUCZ]-[KLUCZ]-[KLUCZ]-[KLUCZ]}`
 
 ## Wskazówki
-Może na przyszłość warto słuchać na lekcjach...
+Dla ułatwienia wykonania zadania, możesz użyć takich narzędzi jak [logisim-evolution](https://github.com/logisim-evolution/logisim-evolution?utm_source=chatgpt.com) lub [logic.ly](https://logic.ly/demo/)
