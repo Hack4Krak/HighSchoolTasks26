@@ -8,6 +8,10 @@ labels:
   - "misc"
   - "reverse_engineering"
 
+authors:
+  - name: "Goteusz"
+    url: "https://github.com/goteusz-maszyk"
+
 task_release_phase: main
 
 assets:
