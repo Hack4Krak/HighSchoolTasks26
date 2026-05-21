@@ -1,0 +1,17 @@
+$schema: "../schema.json"
+
+id: "zakrzowek-fast-pass"
+name: "Zakrzowek Fast Pass"
+flag_hash: "1b74385cf948b97dab59b20eb26e27aa077a8ac3e5a00c1306c67684c12c425f"
+difficulty_estimate: "rookie"
+labels:
+  - "web"
+  - "misc"
+
+task_release_phase: main
+
+display:
+  # Zakrzowek swimming area
+  icon_coordinates:
+    x: 19.9165
+    y: 50.0367
