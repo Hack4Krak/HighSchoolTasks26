@@ -40,16 +40,64 @@ const cookiesSchema = z.object({
     sessionId: z.string(),
 })
 
+const instanceCookieSchema = z.object({
+    id: z.string().regex(/^[a-f0-9]{8}$/),
+})
+
 const docker = new Docker({ socketPath: "/var/run/docker.sock" });
 
 const IMAGE_NAME = "solr-log4shell-server";
 const CONTAINER_SUFFIX = "-solr-log4shell-server";
 const SOLR_HOST_SUFFIX = "-solr.hack4krak.pl";
 const IMAGE_CONTEXT_DIR = path.resolve(process.cwd(), "flag-server");
-const TARGET_NETWORK = "bridge";
+const TARGET_NETWORK = process.env.SOLR_NETWORK ?? "bridge";
 const TIMEOUT_MS = Number(process.env.INSTANCE_TIMEOUT_MS ?? String(5 * 60 * 1000));
 const MAX_ACTIVE_CONTAINERS = Number(process.env.MAX_ACTIVE_CONTAINERS ?? "10");
+const TTL_SECONDS = Math.floor(TIMEOUT_MS / 1000);
 let createQueue: Promise<void> = Promise.resolve();
+
+function cookieOptions(req: express.Request) {
+    const host = req.hostname;
+    return {
+        httpOnly: true,
+        sameSite: "lax" as const,
+        maxAge: TIMEOUT_MS,
+        ...(host.endsWith("hack4krak.pl") ? { domain: ".hack4krak.pl" } : {}),
+    };
+}
+
+function clearCookieOptions(req: express.Request) {
+    const host = req.hostname;
+    return {
+        httpOnly: true,
+        sameSite: "lax" as const,
+        ...(host.endsWith("hack4krak.pl") ? { domain: ".hack4krak.pl" } : {}),
+    };
+}
+
+function instanceResponse(id: string) {
+    return { url: `${id}${SOLR_HOST_SUFFIX}`, ttlSeconds: TTL_SECONDS };
+}
+
+function setInstanceCookie(req: express.Request, res: express.Response, id: string) {
+    res.cookie("smog4shellInstance", JSON.stringify({ id }), cookieOptions(req));
+}
+
+function clearInstanceCookie(req: express.Request, res: express.Response) {
+    res.clearCookie("smog4shellInstance", clearCookieOptions(req));
+}
+
+function parseSessionCookie(rawSession: string | undefined) {
+    if(!rawSession){
+        return null;
+    }
+    try {
+        const parsedSession = cookiesSchema.safeParse(JSON.parse(rawSession));
+        return parsedSession.success ? parsedSession.data : null;
+    } catch {
+        return null;
+    }
+}
 
 async function withCreateLock<T>(fn: () => Promise<T>): Promise<T> {
     const previous = createQueue;
@@ -76,7 +124,7 @@ async function cleanupExpiredContainers() {
     } catch(error){}
     for (const c of expired) {
         try {
-            await docker.getContainer(`${c.id}-solr-log4shell-server`).remove({ force: true });
+            await docker.getContainer(`${c.id}${CONTAINER_SUFFIX}`).remove({ force: true });
         } catch (e) { console.error("Failed to remove container:", e); }
         await db.delete(containers).where(eq(containers.id, c.id));
     }
@@ -193,6 +241,17 @@ async function isContainerRunning(id: string): Promise<boolean> {
     }
 }
 
+async function removeInstance(id: string): Promise<void> {
+    try {
+        await docker.getContainer(`${id}${CONTAINER_SUFFIX}`).remove({ force: true });
+    } catch (error: any) {
+        if (error?.statusCode !== 404) {
+            console.error(`Failed to remove Solr container ${id}:`, error);
+        }
+    }
+    await db.delete(containers).where(eq(containers.id, id));
+}
+
 async function getActiveContainerCount(): Promise<number> {
     const knownContainers = await db.select().from(containers);
     let activeCount = 0;
@@ -250,6 +309,7 @@ async function run(session: string) {
 
         Labels: {
             "traefik.enable": "true",
+            "traefik.docker.network": TARGET_NETWORK,
 
             [`traefik.http.routers.solr-${uuid}.rule`]:
                 `Host(\`${uuid}${SOLR_HOST_SUFFIX}\`)`,
@@ -269,8 +329,7 @@ async function run(session: string) {
 
     setTimeout(async () => {
         try {
-            await container.remove({force: true});
-            await db.delete(containers).where(eq(containers.id, uuid));
+            await removeInstance(uuid);
         } catch (e) {
             console.error("Failed to remove container:", e);
         }
@@ -317,6 +376,18 @@ app.post("/api/create", async (req, res) => {
                 return res.status(400).json({ error: "Invalid session cookie" });
             }
             const SESSION = parsedSession.data
+
+            const rawInstanceCookie = req.cookies.smog4shellInstance;
+            if (rawInstanceCookie) {
+                try {
+                    const parsedInstance = instanceCookieSchema.safeParse(JSON.parse(rawInstanceCookie));
+                    if (parsedInstance.success && await isContainerRunning(parsedInstance.data.id)) {
+                        return res.json(instanceResponse(parsedInstance.data.id));
+                    }
+                } catch {}
+                clearInstanceCookie(req, res);
+            }
+
             let userContainers = await db
                 .select()
                 .from(containers)
@@ -334,7 +405,8 @@ app.post("/api/create", async (req, res) => {
             }
 
             if(userDomainId) {
-                return res.json({url: `${userDomainId}${SOLR_HOST_SUFFIX}`, ttlSeconds: Math.floor(TIMEOUT_MS / 1000)})
+                setInstanceCookie(req, res, userDomainId);
+                return res.json(instanceResponse(userDomainId))
             }
 
             const activeContainerCount = await getActiveContainerCount();
@@ -348,13 +420,48 @@ app.post("/api/create", async (req, res) => {
             }
 
             const newId = await run(SESSION.sessionId)
-            return res.json({url: `${newId}${SOLR_HOST_SUFFIX}`, ttlSeconds: Math.floor(TIMEOUT_MS / 1000)})
+            setInstanceCookie(req, res, newId);
+            return res.json(instanceResponse(newId))
         });
     } catch (error) {
         console.error("Failed to create container:", error);
         return res.status(500).json({ error: "Failed to create instance" });
     }
 
+})
+
+app.post("/api/release", async (req, res) => {
+    try {
+        return await withCreateLock(async () => {
+            const rawInstanceCookie = req.cookies.smog4shellInstance;
+            try {
+                if (rawInstanceCookie) {
+                    const parsedInstance = instanceCookieSchema.safeParse(JSON.parse(rawInstanceCookie));
+                    if (parsedInstance.success) {
+                        await removeInstance(parsedInstance.data.id);
+                    }
+                }
+            } catch {}
+
+            const session = parseSessionCookie(req.cookies.session);
+            if (session) {
+                const userContainers = await db
+                    .select()
+                    .from(containers)
+                    .where(eq(containers.session, session.sessionId));
+
+                for (const userContainer of userContainers) {
+                    await removeInstance(userContainer.id);
+                }
+            }
+
+            clearInstanceCookie(req, res);
+            return res.json({ok: true});
+        });
+    } catch (error) {
+        console.error("Failed to release container:", error);
+        return res.status(500).json({ error: "Failed to release instance" });
+    }
 })
 
 async function shutdown(signal: NodeJS.Signals) {

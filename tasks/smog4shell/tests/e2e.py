@@ -4,6 +4,7 @@ import shlex
 import subprocess
 import time
 from concurrent.futures import ThreadPoolExecutor
+from collections.abc import Iterator
 
 import pytest
 import requests
@@ -23,7 +24,7 @@ def _url(path: str) -> str:
 
 
 @pytest.fixture()
-def client() -> requests.Session:
+def client() -> Iterator[requests.Session]:
     session = requests.Session()
 
     response = None
@@ -39,7 +40,12 @@ def client() -> requests.Session:
     assert response.json() == {"ok": True}
     assert "session" in session.cookies
 
-    return session
+    try:
+        yield session
+    finally:
+        response = session.post(_url("/api/release"), headers={"Host": TASK_HOST}, timeout=30)
+        check_status_code(response)
+        assert response.json() == {"ok": True}
 
 
 def _create_instance(session: requests.Session) -> str:
@@ -126,8 +132,26 @@ def _container_ip(container_name: str) -> str:
     return result.stdout.strip()
 
 
+def _container_network(container_name: str) -> str:
+    result = subprocess.run(
+        [
+            "docker",
+            "inspect",
+            container_name,
+            "--format",
+            "{{range $name, $_ := .NetworkSettings.Networks}}{{$name}}{{break}}{{end}}",
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    return result.stdout.strip()
+
+
 def _wait_for_log4shell_callback(host: str) -> None:
     callback_name = f"smog4shell-callback-{host.split('-solr.', 1)[0]}"
+    solr_container_name = _container_name(host)
     subprocess.run(["docker", "rm", "-f", callback_name], check=False, capture_output=True, timeout=10)
 
     try:
@@ -139,7 +163,7 @@ def _wait_for_log4shell_callback(host: str) -> None:
                 "--name",
                 callback_name,
                 "--network",
-                "bridge",
+                _container_network(solr_container_name),
                 "solr-log4shell-server",
                 "bash",
                 "-lc",

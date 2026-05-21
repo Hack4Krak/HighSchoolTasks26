@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultContainer = document.getElementById("resultContainer");
   const resultUrl = document.getElementById("resultUrl");
   const resultTtl = document.getElementById("resultTtl");
+  const releaseBtn = document.getElementById("releaseBtn");
   const errorContainer = document.getElementById("errorContainer");
 
   async function login() {
@@ -56,6 +57,33 @@ document.addEventListener("DOMContentLoaded", () => {
       generateBtn.disabled = false;
       btnText.textContent = "Generate Instance";
       spinner.classList.add("hidden");
+    }
+  });
+
+  releaseBtn.addEventListener("click", async () => {
+    releaseBtn.disabled = true;
+    errorContainer.classList.add("hidden");
+
+    try {
+      const response = await fetch("/api/release", {
+        method: "POST",
+        credentials: "include"
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Nie udało się zwolnić instancji.");
+      }
+
+      resultContainer.classList.add("hidden");
+      resultUrl.href = "#";
+      resultUrl.textContent = "";
+      resultTtl.textContent = "";
+    } catch (err) {
+      errorContainer.textContent = err.message;
+      errorContainer.classList.remove("hidden");
+    } finally {
+      releaseBtn.disabled = false;
     }
   });
 });

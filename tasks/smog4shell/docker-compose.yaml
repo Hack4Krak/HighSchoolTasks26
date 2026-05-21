@@ -4,15 +4,17 @@ services:
     image: smog4shell
     environment:
       DATABASE_URL: postgres://ctf:ctf@db:5432/ctf
+      SOLR_NETWORK: bridge
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - db
-    networks:
-      - ctf-services-net
-      - internal
+    network_mode: bridge
+    links:
+      - db
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=bridge"
       - "traefik.http.routers.smog4shell.rule=Host(`smog4shell.hack4krak.pl`)"
       - "traefik.http.services.smog4shell.loadbalancer.server.port=3000"
 
@@ -24,8 +26,7 @@ services:
       POSTGRES_DB: ctf
     volumes:
       - pgdata:/var/lib/postgresql/data
-    networks:
-      - internal
+    network_mode: bridge
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ctf"]
       interval: 5s
@@ -39,5 +40,3 @@ networks:
   ctf-services-net:
     external: true
     name: bridge
-  internal:
-    internal: true
