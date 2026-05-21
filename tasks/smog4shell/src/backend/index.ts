@@ -315,7 +315,7 @@ async function run(session: string) {
                 `Host(\`${uuid}${SOLR_HOST_SUFFIX}\`)`,
 
             [`traefik.http.routers.solr-${uuid}.entrypoints`]:
-                "solr",
+                "websecure,solr",
 
             [`traefik.http.services.solr-${uuid}.loadbalancer.server.port`]:
                 "8983",
