@@ -1,17 +1,23 @@
 $schema: "../schema.json"
 
 id: "hidden-site"
-name: "Hidden Site"
+name: "Strony nie z tego świata"
 flag_hash: "72412ad8387e31782da9131c7557d9b85bcde747bddf25f12a5711bd7fe0c503"
 
 difficulty_estimate: easy
 labels:
   - misc
 
+authors:
+  - name: "P0m1d00r"
+    url: "https://github.com/P0m1d00r"
+
+task_release_phase: main
+
 display:
   icon_coordinates:
-    #proposed location: Biuro poselskie Miszalskiego
-    x: 50.0657109461355
-    y: 19.929318049513206
+    #proposed location: Hotel Forum
+    x: 19.936133
+    y: 50.045043
 
 
