@@ -1,5 +1,6 @@
 ## Opis
-Zadanie to było typowym przykładem LSB (Least Significant Bit) steganografii, czyli ukrywania informacji w najmniej znaczących bitach danych. W tym przypadku, flaga została ukryta w pliku audio `900728.wav`.
+Zadanie to było typowym przykładem LSB (Least Significant Bit) steganografii, czyli ukrywania informacji w najmniej znaczących bitach danych.
+W tym przypadku podanym plikiem było: 8bit mono audio. 
 
 
 ## Rozwiązanie
