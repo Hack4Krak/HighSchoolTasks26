@@ -1,41 +1,20 @@
 ## Opis
 
-Terminal wyświetla mapę salonu arcade, a na pasku stanu znajduje się licznik biletów:
+Zadanie jest prostą grą terminalową uruchamianą przez SSH. Każda sesja ma osobny stan gry, a pasek statusu pokazuje aktualną pozycję gracza oraz liczbę biletów w zapisie szesnastkowym.
 
-```text
-POS_X=2f POS_Y=03  BILETY=00000000000001f4
-```
+Na mapie znajduje się zamknięte przejście serwisowe, które wymaga „wszystkich punktów”. W praktyce oznacza to wartość bardzo bliską maksymalnej wartości 64-bitowego licznika.
 
-Gracz zaczyna z `500` biletami (`0x1f4`) przy maszynach. Po stronie kasyna widoczne są jackpoty i cooldowny, ale drzwi serwisowe wymagają "wszystkich punktów" — technicznie oznacza to prawie pełną wartość `u64`:
-
-```text
-ffffffffffffffe0
-```
-
-Kluczowym elementem jest zepsuty jednoręki bandyta. Za każdym razem zabiera `32` bilety, a następnie wchodzi w cooldown. Po odpowiedniej liczbie przegranych licznik `u64` przeskakuje do okolicy $2^{64}$ [(integer underflow)](https://en.wikipedia.org/wiki/Integer_overflow)
+Istotny jest zepsuty jednoręki bandyta oznaczony jako `X`. W przeciwieństwie do zwykłych automatów nie dodaje on biletów, tylko zawsze odejmuje stałą liczbę. Ponieważ licznik biletów zachowuje się jak liczba bez znaku, zejście poniżej zera powoduje zawinięcie do bardzo dużej wartości. Jest to klasyczny integer underflow.
 
 ## Rozwiązanie
 
-Ze spawnu idziemy do zepsutego bandyty:
+Najpierw trzeba znaleźć zepsuty automat `X`. Po dojściu do niego należy używać go wielokrotnie, czekając między próbami na zakończenie cooldownu. Każda poprawna próba zmniejsza liczbę biletów o tę samą wartość.
 
-```text
-sssssssddddddd
-```
+Po odpowiedniej liczbie przegranych licznik biletów zawinie się z małej wartości do wartości bliskiej maksimum. Można to zauważyć na pasku statusu, bo liczba biletów nagle stanie się bardzo dużą wartością szesnastkową.
 
-Gramy 16 razy. Między grami odchodzimy i wracamy, by przeczekać cooldown:
+Z tak ustawionym licznikiem trzeba wrócić do przejścia serwisowego. Po drodze należy unikać ognia oznaczonego jako `^`, ponieważ odejmuje bilety i może zbić licznik poniżej wymaganego progu.
 
-```text
-p
-adad
-```
-
-Po ostatniej przegranej licznik biletów znajduje się w akceptowanym zakresie. Następnie przechodzimy labirynt serwisowy do zamkniętych drzwi. Unikamy ognia (`^`) — jeden zły krok zabiera wystarczająco dużo biletów, by spaść poniżej progu czytnika. Gdy czytnik zaakceptuje wartość, przenosi nas do znacznika flagi:
-
-```text
-sssssaaaaaaaaaaaaaaaaaaasaaaaaaaaaaaaaaaaaasaaaaaaaassaaaaawa
-```
-
-Naciskamy spację na włazie, by odkryć:
+Jeśli licznik nadal jest wystarczająco wysoki, czytnik przy drzwiach zaakceptuje wartość i przeniesie gracza do klapy serwisowej. Sprawdzenie klapy spacją albo komendą `look` wypisuje flagę:
 
 ```text
 hack4KrakCTF{u64_ticket_jackpot_after_hours}

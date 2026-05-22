@@ -5,9 +5,14 @@ services:
       context: .
       network: host
     ports:
-      - "2222:2222"
+      - target: 2222
+        published: 2222
+        protocol: tcp
+        mode: host
     environment:
       FLAG: "hack4KrakCTF{u64_ticket_jackpot_after_hours}"
+    networks:
+      - ctf-services-net
     cap_drop:
       - ALL
     cap_add:
@@ -19,3 +24,8 @@ services:
       - SYS_CHROOT
     security_opt:
       - no-new-privileges:true
+
+networks:
+  ctf-services-net:
+    external: true
+    name: bridge
