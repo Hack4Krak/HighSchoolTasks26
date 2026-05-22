@@ -20,7 +20,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.linux-aint-scary.rule=Host(`linux-aint-scary.hack4krak.pl`)"
-      - "traefik.http.routers.linux-aint-scary.entrypoints=web"
       - "traefik.http.services.linux-aint-scary.loadbalancer.server.port=8080"
 
 networks:
