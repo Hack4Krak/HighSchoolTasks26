@@ -1,6 +1,6 @@
->
->
->
+> Nie ma nic trudniejszego niż rozwiązywanie bramek logicznych na kartce...
+> 
+> No dobra może poza przekonaniem handlarza na rybitwach aby ten zszedł z ceny za work ziemniaków
 
 ## Zadanie
 W tym zadaniu otrzymacie schemat zawierający pewien układ logiczny. 
