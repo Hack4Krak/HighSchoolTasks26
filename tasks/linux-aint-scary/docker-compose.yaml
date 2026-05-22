@@ -3,7 +3,6 @@ services:
     build: .
     image: linux-aint-scary:latest
     restart: unless-stopped
-    read_only: true
     tmpfs:
       - /run
       - /tmp
@@ -12,11 +11,19 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
-    network_mode: bridge
-    deploy:
-      labels:
-        - "traefik.enable=true"
-        - "traefik.docker.network=bridge"
-        - "traefik.http.routers.linux-aint-scary.rule=Host(`linux-aint-scary.hack4krak.pl`)"
-        - "traefik.http.routers.linux-aint-scary.entrypoints=web"
-        - "traefik.http.services.linux-aint-scary.loadbalancer.server.port=8080"
+    cap_add:
+      - CHOWN
+      - SETUID
+      - SETGID
+    networks:
+      - ctf-services-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.linux-aint-scary.rule=Host(`linux-aint-scary.hack4krak.pl`)"
+      - "traefik.http.routers.linux-aint-scary.entrypoints=web"
+      - "traefik.http.services.linux-aint-scary.loadbalancer.server.port=8080"
+
+networks:
+  ctf-services-net:
+    external: true
+    name: bridge

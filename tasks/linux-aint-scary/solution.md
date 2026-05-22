@@ -1,12 +1,8 @@
 ## Opis
 
-Zadanie uruchamia małego Linuxa w przeglądarce przez `v86` i pokazuje, że
-`/proc` nie jest zwykłym katalogiem z plikami, tylko widokiem na działające
-procesy systemu.
+Zadanie uruchamia małego Linuxa w przeglądarce przez `v86` i pokazuje, że `/proc` nie jest zwykłym katalogiem z plikami, tylko widokiem na działające procesy systemu.
 
-Flaga znajduje się w `/root/flag.txt` i ma uprawnienia `400`, więc użytkownik
-`ctf` nie może jej odczytać bezpośrednio. W tle działa jednak proces
-`maintenance-daemon`, który dostał kopię flagi w zmiennej środowiskowej.
+Flaga znajduje się w `/root/flag.txt` i ma uprawnienia `400`, więc użytkownik `ctf` nie może jej odczytać bezpośrednio. W tle działa jednak proces `maintenance-daemon`, który dostał kopię flagi w zmiennej środowiskowej.
 
 Środowisko procesu jest widoczne w `/proc/<pid>/environ`.
 
