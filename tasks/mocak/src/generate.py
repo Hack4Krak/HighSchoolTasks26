@@ -154,10 +154,6 @@ def main():
     print(f"[+] Metadata value: restoration-key={encoded_password}")
     print("[+] Custom PNG chunk: ctFa")
     print("[+] ctFa payload: XOR1 + xor(flag, base64_decoded_restoration_key)")
-    print()
-    print("[debug]")
-    print(f"password: {args.password}")
-    print(f"flag:     {args.flag}")
 
 
 if __name__ == "__main__":

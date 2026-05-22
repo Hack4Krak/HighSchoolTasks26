@@ -4,7 +4,7 @@ Zadanie polega na analizie pliku PNG. Obraz wygląda zwyczajnie, ale format PNG 
 
 Po wypisaniu chunków z `mocak.png` widać standardowe wpisy takie jak `IHDR`, `IDAT` i `IEND`, ale pojawia się też niestandardowy chunk o nazwie `ctFa`. Sama nazwa wygląda podejrzanie, bo przypomina skrót od CTF i sugeruje, że może być powiązana z Hack4Krak CTF.
 
-W metadanych tekstowych PNG można znaleźć wpis `restoration-key=...`. Wartość jest zakodowana Base64 i po zdekodowaniu daje klucz potrzebny do odzyskania danych ukrytych w chunka `ctFa`.
+W metadanych tekstowych PNG można znaleźć wpis `restoration-key=...`. Wartość jest zakodowana Base64 i po zdekodowaniu daje klucz potrzebny do odzyskania danych ukrytych w chunku `ctFa`.
 
 ## Rozwiązanie
 
@@ -17,7 +17,7 @@ zakopane_pod_rynkiem
 ```
 
 4. W pliku znajduje się niestandardowy chunk `ctFa`. Jego dane zaczynają się od magicznej wartości `XOR1`.
-5. Pozostałą część danych chunka odszyfrowujemy XOR-em z powtarzanym kluczem `zakopane_pod_rynkiem`.
+5. Pozostałą część danych chunku odszyfrowujemy XOR-em z powtarzanym kluczem `zakopane_pod_rynkiem`.
 
 Przykładowy minimalny dekoder:
 

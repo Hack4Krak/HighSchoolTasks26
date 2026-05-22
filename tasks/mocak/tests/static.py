@@ -1,16 +1,15 @@
 import base64
-import hashlib
 import re
 import struct
 import zlib
 from pathlib import Path
 
-import yaml
+from toolbox.utils.test_utils import load_flag_hash, validate_flag_hash
 
 TASK_DIR = Path(__file__).resolve().parents[1]
 PNG_PATH = TASK_DIR / "assets" / "mocak.png"
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
-FLAG_RE = re.compile(rb"^hack4KrakCTF\{[A-Za-z0-9_]+\}$")
+FLAG_RE = re.compile(rb"^hack4KrakCTF\{[^}]+\}$")
 
 
 def _xor(data: bytes, key: bytes) -> bytes:
@@ -105,11 +104,10 @@ def test_mocak_png_contains_valid_recoverable_flag() -> None:
 
 
 def test_recovered_flag_matches_configured_hash() -> None:
-    config = yaml.safe_load((TASK_DIR / "config.yaml").read_text())
+    flag_hash = load_flag_hash(TASK_DIR)
     flag = _recover_flag().decode()
     match = re.fullmatch(r"hack4KrakCTF\{([^}]+)\}", flag)
 
     assert match is not None
-    flag_content = match.group(1)
-
-    assert hashlib.sha256(flag_content.encode()).hexdigest() == config["flag_hash"]
+    assert flag_hash is not None
+    assert validate_flag_hash(match.group(1), flag_hash)
