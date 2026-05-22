@@ -1,0 +1,31 @@
+services:
+  krakow-arcade-museum:
+    image: krakow-arcade-museum
+    build:
+      context: .
+      network: host
+    ports:
+      - target: 2222
+        published: 2222
+        protocol: tcp
+        mode: host
+    environment:
+      FLAG: "hack4KrakCTF{u64_ticket_jackpot_after_hours}"
+    networks:
+      - ctf-services-net
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+      - CHOWN
+      - DAC_OVERRIDE
+      - NET_BIND_SERVICE
+      - SYS_CHROOT
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  ctf-services-net:
+    external: true
+    name: bridge

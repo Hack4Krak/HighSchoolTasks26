@@ -1,0 +1,24 @@
+Port 2222
+Protocol 2
+HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_rsa_key
+
+PermitRootLogin no
+PasswordAuthentication yes
+KbdInteractiveAuthentication no
+PubkeyAuthentication no
+PermitEmptyPasswords yes
+AllowUsers player
+
+X11Forwarding no
+AllowTcpForwarding no
+PermitTunnel no
+PermitTTY yes
+PrintMotd no
+PrintLastLog no
+UsePAM no
+
+Subsystem sftp internal-sftp
+
+Match User player
+    ForceCommand /game/game.py
