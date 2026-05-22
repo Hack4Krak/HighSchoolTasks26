@@ -306,12 +306,17 @@ def play(state: State) -> State:
             return state
         state.tickets = u64(state.tickets - BROKEN_LOSS)
         state.broken_cooldown = 3
-        state.message = f"{machine}: LOSUJEMY... wynik zawsze dobry dla kasyna. -{BROKEN_LOSS} biletow, zostaje {state.tickets:016x}."
+        state.message = (
+            f"{machine}: LOSUJEMY... wynik zawsze dobry dla kasyna."
+            f" -{BROKEN_LOSS} biletow, zostaje {state.tickets:016x}."
+        )
         return state
 
     if state.last_machine == tile:
         state.tickets = u64(state.tickets + COOLDOWN_REWARD)
-        state.message = f"{machine}: cooldown. Krupier wyplaca tylko +{COOLDOWN_REWARD}; zmien automat, zeby grac dalej."
+        state.message = (
+            f"{machine}: cooldown. Krupier wyplaca tylko +{COOLDOWN_REWARD}; zmien automat, zeby grac dalej."
+        )
         return state
 
     state.last_machine = tile
@@ -346,7 +351,11 @@ def inspect(state: State) -> State:
         state.message = f"Palnik serwisowy. Jeden zly krok kosztuje {FIRE_LOSS} biletow."
     else:
         machine = machine_at(state.x, state.y)
-        state.message = f"{machine}: losowanie trwa po nacisnieciu P; powtarzanie tej samej szafy ma cooldown." if machine else "Nic ciekawego."
+        state.message = (
+            f"{machine}: losowanie trwa po nacisnieciu P; powtarzanie tej samej szafy ma cooldown."
+            if machine
+            else "Nic ciekawego."
+        )
     return state
 
 
@@ -416,19 +425,17 @@ def render(state: State) -> str:
     else:
         flag_line = "Znajdz zamknieta klape serwisowa."
 
-    return "\n".join(
-        [
-            "\x1b[H\x1b[J",
-            "KRAKOW ARCADE MUSEUM // NOCNA ZMIANA",
-            "WASD ruch  P gra  Spacja sprawdz  R reset  Q wyjscie",
-            "",
-            render_view(state),
-            "",
-            f"POS_X={state.x:02x} POS_Y={state.y:02x}  BILETY={state.tickets:016x}  GRY={state.plays}",
-            state.message,
-            flag_line,
-        ]
-    )
+    return "\n".join([
+        "\x1b[H\x1b[J",
+        "KRAKOW ARCADE MUSEUM // NOCNA ZMIANA",
+        "WASD ruch  P gra  Spacja sprawdz  R reset  Q wyjscie",
+        "",
+        render_view(state),
+        "",
+        f"POS_X={state.x:02x} POS_Y={state.y:02x}  BILETY={state.tickets:016x}  GRY={state.plays}",
+        state.message,
+        flag_line,
+    ])
 
 
 def read_key() -> str:

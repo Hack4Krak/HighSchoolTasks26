@@ -1,39 +1,41 @@
-# Solution
+## Opis
 
-The terminal redraws a normal arcade map, but the status line exposes the ticket register:
+Terminal wyświetla mapę salonu arcade, a na pasku stanu znajduje się licznik biletów:
 
 ```text
 POS_X=2f POS_Y=03  BILETY=00000000000001f4
 ```
 
-You start with `500` tickets (`0x1f4`) next to the casino machines. The casino side has visible jackpots and cooldowns, but the service door says it requires all points. Technically, that means a near-full `u64`:
+Gracz zaczyna z `500` biletami (`0x1f4`) przy maszynach. Po stronie kasyna widoczne są jackpoty i cooldowny, ale drzwi serwisowe wymagają "wszystkich punktów" — technicznie oznacza to prawie pełną wartość `u64`:
 
 ```text
 ffffffffffffffe0
 ```
 
-The important interaction is the broken one armed bandit. It always removes `32` tickets and then goes on cooldown. After enough fixed losses, the `u64` ticket counter underflows into the door's accepted range.
+Kluczowym elementem jest zepsuty jednoręki bandyta. Za każdym razem zabiera `32` bilety, a następnie wchodzi w cooldown. Po odpowiedniej liczbie przegranych licznik `u64` przeskakuje do okolicy $2^{64}$ [(integer underflow)](https://en.wikipedia.org/wiki/Integer_overflow)
 
-From spawn, walk to the broken bandit:
+## Rozwiązanie
+
+Ze spawnu idziemy do zepsutego bandyty:
 
 ```text
 sssssssddddddd
 ```
 
-Play it 16 times. Between plays, move away and back to wait out the cooldown:
+Gramy 16 razy. Między grami odchodzimy i wracamy, by przeczekać cooldown:
 
 ```text
 p
 adad
 ```
 
-After the last loss the ticket counter is in the accepted high range. Then walk through the service maze to the locked door. Avoid the fire (`^`): one wrong step removes enough tickets to fall below the reader's threshold. When the reader accepts the value, it teleports you to the flag marker:
+Po ostatniej przegranej licznik biletów znajduje się w akceptowanym zakresie. Następnie przechodzimy labirynt serwisowy do zamkniętych drzwi. Unikamy ognia (`^`) — jeden zły krok zabiera wystarczająco dużo biletów, by spaść poniżej progu czytnika. Gdy czytnik zaakceptuje wartość, przenosi nas do znacznika flagi:
 
 ```text
 sssssaaaaaaaaaaaaaaaaaaasaaaaaaaaaaaaaaaaaasaaaaaaaassaaaaawa
 ```
 
-Inspect the hatch with Space to reveal:
+Naciskamy spację na włazie, by odkryć:
 
 ```text
 hack4KrakCTF{u64_ticket_jackpot_after_hours}
