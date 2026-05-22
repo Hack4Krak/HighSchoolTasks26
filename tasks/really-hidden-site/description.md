@@ -1,8 +1,10 @@
-> Znikło... znowu
+> Takie piękne puste miejsce...
 > 
-> Prawie jak pieniądze z komunii.
+> Sama trawa i drzewa... 
 > 
-> Różnica jest taka że to da się odnaleźć.
+> Pięknie świecące słoneczko i ćwierkające ptaszki...
+> 
+> Idealne miejsce na budowę osiedla...
 
 ## Zadanie
 
