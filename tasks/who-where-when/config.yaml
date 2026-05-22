@@ -1,6 +1,6 @@
 $schema: "../schema.json"
 
-id: "really-hidden-site"
+id: "who-where-when"
 name: "Kto, gdzie i kiedy ukrył stronę?"
 flag_hash: "7dfa0c2f9f96537725920bfbd5f14e38f4df5b131f9d143d04d064fbc088da61"
 difficulty_estimate: "medium"
