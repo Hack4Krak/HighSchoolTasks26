@@ -1,0 +1,9 @@
+.git
+src/frontend/node_modules
+src/frontend/.output
+src/frontend/.nuxt
+src/frontend/.nitro
+src/frontend/.cache
+src/frontend/dist
+src/audio/*.mp3
+*songs.db

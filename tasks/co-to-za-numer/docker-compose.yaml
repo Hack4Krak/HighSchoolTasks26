@@ -1,0 +1,15 @@
+services:
+  co-to-za-numer:
+    image: co-to-za-numer
+    build: .
+    networks:
+      - ctf-services-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.co-to-za-numer.rule=Host(`co-to-za-numer.hack4krak.pl`)"
+      - "traefik.http.services.co-to-za-numer.loadbalancer.server.port=8000"
+
+networks:
+  ctf-services-net:
+    external: true
+    name: bridge
