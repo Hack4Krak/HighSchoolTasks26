@@ -1,6 +1,6 @@
 ## Opis
 
-Panem Januszem w tym zadaniu jest model językowy. Dostęp do niego realizowany jest przez stronę [Open WebUI](https://openwebui.com?utm_source=chatgpt.com).
+Panem Kazimierzem w tym zadaniu jest model językowy. Dostęp do niego realizowany jest przez stronę [Open WebUI](https://openwebui.com/).
 
 Model działa pod bardzo rygorystycznym poleceniem systemowym, które zawiera flagę oraz instrukcje zabraniające jej ujawnienia użytkownikowi.
 
@@ -26,4 +26,3 @@ AI samo z siebie nie potrafiło bezpośrednio wchodzić w interakcję ze stroną
 Po kilku próbach udało mu się uzyskać flagę. Możliwe, że wykorzystanie narzędzi takich jak Claude lub Codex for Chrome pozwoliłoby na całkowicie autonomiczne rozwiązanie tego zadania.
 
 AI może być również przydatne do przeprowadzania ataków typu *prompt injection* na inne modele językowe, automatyzując testowanie różnych wariantów poleceń i strategii obchodzenia zabezpieczeń.
-
