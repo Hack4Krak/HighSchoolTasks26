@@ -1,4 +1,4 @@
-<img src="./solution/solution.png"></img>
+![](./solution/solution.png)
 
 Po rozwiązaniu zadania otrzymywaliśmy ciąg:
 
