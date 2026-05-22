@@ -1,0 +1,28 @@
+services:
+  static-website:
+    image: lipanski/docker-static-website:latest
+    restart: unless-stopped
+    volumes:
+      - ./src/index.html:/home/static/index.html:ro
+    networks:
+      - tor_network
+    ports:
+      - "3000:3000"
+  tor:
+    build: src/
+    image: hack4krak-task-hidden-site-tor:latest
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    stop_grace_period: 1m
+    networks:
+      - tor_network
+    labels:
+      - "traefik.enable=false"
+    restart: unless-stopped
+
+networks:
+  tor_network:
