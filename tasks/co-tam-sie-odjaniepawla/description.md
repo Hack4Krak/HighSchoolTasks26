@@ -8,8 +8,8 @@
 
 Doszły nas informacje, że na zapleczu Centrum Jana Pawła II dzieją się podejrzane rzeczy. Przydałoby się sprawdzić, co tam się dzieje:
 
-**Minecraft wersja 1.21.6**
-Adres: `hack4krak.pl:25566`
+Wersja Minecraft: `1.21.6`\
+Adres: `co-tam-sie-odjaniepawla.hack4krak.pl:25566`
 
 ## Wskazówki
 

@@ -1,14 +1,12 @@
 import json
+import os
 import socket
 import struct
 from pathlib import Path
-from urllib.parse import urlparse
-
-from toolbox.utils.test_utils import RequestHelper
 
 task_path = Path(__file__).parent.parent
 
-MC_ADDRESS = urlparse(RequestHelper().base_url).hostname or "localhost"
+MC_ADDRESS = "co-tam-sie-odjaniepawla.hack4krak.pl" if os.getenv("TASKS_TARGET") == "prod" else "localhost"
 SERVICE_PORT = 25566
 
 
