@@ -3,6 +3,7 @@ import sqlite3
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 app = FastAPI()
 
@@ -66,8 +67,11 @@ def search():
 
 @app.post("/api/guess")
 def guess(payload: dict):
-    day = payload["day"]
-    guess = payload["guess"]
+    day = payload.get("day")
+    guess = payload.get("guess")
+
+    if day is None or guess is None:
+        raise HTTPException(400, "missing day or guess")
 
     song = get_song(day)
 
@@ -95,13 +99,18 @@ def guess(payload: dict):
 class SPAStaticFiles(StaticFiles):
     async def get_response(self, path: str, scope):
         try:
-            return await super().get_response(path, scope)
-        except HTTPException as ex:
+            response = await super().get_response(path, scope)
+        except StarletteHTTPException as ex:
             if ex.status_code == 404:
                 if path.startswith("api/") or path.startswith("audio/"):
                     raise
                 return await super().get_response("index.html", scope)
             raise
+
+        if response.status_code == 404 and not path.startswith(("api/", "audio/")):
+            return await super().get_response("index.html", scope)
+
+        return response
 
 
 app.mount("/", SPAStaticFiles(directory="public", html=True), name="public")

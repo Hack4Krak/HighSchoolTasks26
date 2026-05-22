@@ -2,7 +2,7 @@ from pathlib import Path
 
 from toolbox.utils.test_utils import RequestHelper, check_status_code
 
-request = RequestHelper(default_host="cotozahit.hack4krak.pl")
+request = RequestHelper(default_host="co-to-za-numer.hack4krak.pl")
 task_path = Path(__file__).parent.parent
 
 

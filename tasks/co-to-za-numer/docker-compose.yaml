@@ -6,7 +6,7 @@ services:
       - ctf-services-net
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.co-to-za-numer.rule=Host(`cotozahit.hack4krak.pl`)"
+      - "traefik.http.routers.co-to-za-numer.rule=Host(`co-to-za-numer.hack4krak.pl`)"
       - "traefik.http.services.co-to-za-numer.loadbalancer.server.port=8000"
 
 networks:
