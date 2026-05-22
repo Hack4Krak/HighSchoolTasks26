@@ -1,0 +1,16 @@
+services:
+  co-tam-sie-odjaniepawla:
+    image: co-tam-sie-odjaniepawla
+    restart: unless-stopped
+    ports:
+      - target: 25565
+        published: 25566
+        protocol: tcp
+        mode: ingress
+    networks:
+      - ctf-services-net
+
+networks:
+  ctf-services-net:
+    external: true
+    name: bridge
