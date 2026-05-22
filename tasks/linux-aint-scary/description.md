@@ -12,5 +12,5 @@ System jest bardzo minimalistyczny, a flaga leży w `/root/flag.txt`. Cóż moż
 [linux-aint-scary.hack4krak.pl](https://linux-aint-scary.hack4krak.pl)
 
 ## Wskazówki
-- Dla bezpieczeństwa Twojego i Twojej rodziny nie udostępniamy bezpośredniego dostępu do tej maszyny. Stworzyliśmy jednak emulator `v86`, który uruchamia małego Linuxa bezpośrednio w przeglądarce.
+- Dla bezpieczeństwa Twojego i Twojej rodziny nie udostępniamy bezpośredniego dostępu do tej maszyny. Stworzyliśmy jednak emulator, który uruchamia małego Linuxa bezpośrednio w przeglądarce.
 - W Linuxie procesy zostawiają po sobie sporo śladów w `/proc`.
