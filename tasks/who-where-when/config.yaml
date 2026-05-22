@@ -15,5 +15,5 @@ task_release_phase: main
 display:
   # Błonia
   icon_coordinates:
-    x: 50.06014117771099
-    y: 19.9095209614547
+    x: 19.9095209614547
+    y: 50.06014117771099
