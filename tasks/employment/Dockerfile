@@ -1,4 +1,4 @@
-FROM oven/bun:1
+FROM node:22-slim
 
 WORKDIR /app
 
@@ -6,18 +6,14 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends python3 make g++ \
     && rm -rf /var/lib/apt/lists/*
 
-RUN chown -R bun:bun /app
+COPY src/package.json src/package-lock.json ./
 
-COPY --chown=bun:bun src/package.json src/bun.lock ./
+RUN npm install
 
-USER bun
+COPY src/ .
 
-RUN bun install --frozen-lockfile
-
-COPY --chown=bun:bun src/ .
-
-RUN bun run build
+RUN npm run build
 
 EXPOSE 3000
 
-CMD ["bun", "run", "preview"]
+CMD ["npm", "run", "preview"]
