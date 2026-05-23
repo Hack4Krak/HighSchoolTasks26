@@ -28,7 +28,7 @@ def ascii(n):
         suma += ord(i)
     return suma
     
-print((ascii(d[1])+ascii(d[2])+ascii(d[6])+ascii(d[7]))**2)
+print((ascii(slownik[1])+ascii(slownik[2])+ascii(slownik[6])+ascii(slownik[7]))**2)
 ```
 11. Wychodzi nam z tego - 415385161
 12. Zatem flaga to: 415385161 * 86304100 * 58936329

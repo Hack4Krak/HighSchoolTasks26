@@ -14,7 +14,7 @@ pub fn App() -> Html {
             flex-direction: column;
             margin: 0;
         "#
-    ).unwrap();
+    ).expect("failed to create app layout style");
 
     html! {
         <main class={layout_style}>

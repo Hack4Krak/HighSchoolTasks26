@@ -133,8 +133,8 @@ pub fn LibraryContent() -> Html {
                 </div>
 
                 <nav class="sidebar-nav">
-                    <a href="/static/ThePrawo.pdf" download="ThePrawo.pdf" class="nav-link">{"The Prawo"}</a>
-                    <a href="/static/WielkiBrat.zip" download="WielkiBrat.zip" class="nav-link">{"Program do ustalania kar"}</a>
+                    <a href="static/ThePrawo.pdf" download="ThePrawo.pdf" class="nav-link">{"The Prawo"}</a>
+                    <a href="static/WielkiBrat.zip" download="WielkiBrat.zip" class="nav-link">{"Program do ustalania kar"}</a>
                 </nav>
             </aside>
 
@@ -147,7 +147,7 @@ pub fn LibraryContent() -> Html {
 
                 <ul class="file-list">
                     {for files.into_iter().map(|file| {
-                        let path = format!("/static/{}", file); // Path points to your static folder
+                        let path = format!("static/{}", file);
                         let filename = file.to_string();
                         html! {
                             <li class="file-item">
