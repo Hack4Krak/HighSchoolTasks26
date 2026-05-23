@@ -2,7 +2,7 @@ $schema: "../schema.json"
 
 id: "bibliotheca-jagellonica"
 name: "Bibliotheca Jagellonica"
-flag_hash: "4ed30f1ad4e85f85461b240bef0b51ce1d5fc7cc7e5c9d5e9ff0586fb549b64d"
+flag_hash: "3574d550186dcfea1ccdeb674f5ae871cc0a64400e44eafd5c241df30d3f5281"
 difficulty_estimate: "hard"
 labels:
   - "misc"
