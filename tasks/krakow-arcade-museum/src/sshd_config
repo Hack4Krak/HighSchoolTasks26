@@ -21,4 +21,4 @@ UsePAM no
 Subsystem sftp internal-sftp
 
 Match User player
-    ForceCommand /game/game.py
+    ForceCommand /usr/local/bin/python3 -u /game/game.py

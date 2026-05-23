@@ -8,6 +8,7 @@ import termios
 import time
 import tty
 from dataclasses import dataclass
+from typing import Any
 
 FLAG = os.environ.get("FLAG", "hack4KrakCTF{u64_ticket_jackpot_after_hours}")
 
@@ -195,7 +196,7 @@ class State:
 class RawTerminal:
     def __init__(self) -> None:
         self.fd = sys.stdin.fileno()
-        self.old: list[int] | None = None
+        self.old: Any = None
 
     def __enter__(self) -> RawTerminal:
         if sys.stdin.isatty():
@@ -396,7 +397,7 @@ def screen_tile(x: int, y: int, state: State) -> str:
     if char == "G":
         return "D"
     if char == "F":
-        return "⚑"
+        return "F"
     if char == "$":
         return "$"
     if char == FIRE_TILE:
@@ -473,7 +474,17 @@ def run_line_mode() -> int:
         "reset": "r",
         "quit": "q",
     }
-    print(render(state).replace("\x1b[H\x1b[J", ""))
+    print(render(state).replace("\x1b[H\x1b[J", ""), flush=True)
+
+    if os.environ.get("SSH_ORIGINAL_COMMAND") is None and not sys.stdin.isatty():
+        print(
+            "\nTen klient SSH nie przydzielil terminala. "
+            "Polacz sie komenda: ssh -tt player@HOST -p PORT",
+            flush=True,
+        )
+        while True:
+            time.sleep(60)
+
     for line in sys.stdin:
         text = line.strip().lower()
         keys = commands.get(text)
@@ -485,7 +496,7 @@ def run_line_mode() -> int:
             state, done = apply_key(state, key)
             if done:
                 break
-        print(render(state).replace("\x1b[H\x1b[J", ""))
+        print(render(state).replace("\x1b[H\x1b[J", ""), flush=True)
         if done:
             break
         time.sleep(0.01)
