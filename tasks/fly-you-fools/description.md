@@ -1,8 +1,8 @@
-> Olek, nie możemy tyle kraść, bo się wyda...
+> Nie możemy tak długo czekać, bo ktoś nas zauważy...
 >
-> Eeeee tam, jak Jacek mógł, to ja też mogę!
+> Spokojnie, jeszcze chwila i wszystko będzie jasne!
 >
-> Stop kolesiostwu! Dosyć tego!
+> Za późno na cofanie. Animacja już ruszyła.
 >
 > Oj... czas uciekać!
 
@@ -16,4 +16,4 @@ W `fly-you-fools.html` załączona jest animacja, poczekajcie *chwilę*, a waszy
 
 ---
 
-<sub>Treść zadania ma charakter humorystyczny i nie wyraża poglądów organizatorów. Postaci są fikcyjne, a wszelkie podobieństwa do realnych osób publicznych są całkowicie przypadkowe.</sub>
+<sub>Treść zadania ma charakter humorystyczny. Postaci i dialog są fikcyjne.</sub>
