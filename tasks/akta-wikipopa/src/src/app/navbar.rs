@@ -45,7 +45,7 @@ pub fn Navbar() -> Html {
                 border: none;
                 box-shadow:
                     0 4px 0px #b3861f,
-                    0 6px 15px rgba(0,0,0.3);
+                    0 6px 15px rgba(0,0,0,0.3);
                 transition: all 0.15s ease-in-out;
                 position: relative;
                 top: 0;
@@ -112,7 +112,7 @@ pub fn Navbar() -> Html {
                         />
                     </div>
 
-                    <a href="/static/ThePrawo.pdf" download="ThePrawo.pdf" class="law-button">
+                    <a href="static/ThePrawo.pdf" download="ThePrawo.pdf" class="law-button">
                         {"The Prawo"}
                     </a>
                 </div>

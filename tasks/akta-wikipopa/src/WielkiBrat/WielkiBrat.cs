@@ -106,6 +106,7 @@ public partial class WielkiBrat : Form
         label4.Visible = false;
         textBox2.Visible = false;
         textBox3.Visible = false;
+        button1.Visible = true;
         button2.Visible = false;
     }
 
@@ -118,6 +119,7 @@ public partial class WielkiBrat : Form
         textBox2.Visible = true;
         textBox3.Visible = true;
         label2.Visible = false;
+        button1.Visible = false;
         button2.Visible = true;
     }
 }
