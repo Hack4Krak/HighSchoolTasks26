@@ -1,0 +1,24 @@
+$schema: "../schema.json"
+
+id: "flappy-krak"
+name: "flappykrak"
+flag_hash: "ce66c6cfcfc9450533eded906cad7c28520db39c3f408e5157ebf0fce861f4cd"
+difficulty_estimate: "rookie"
+labels:
+  - "games"
+
+authors:
+  - name: "wojpo"
+    url: "https://github.com/wojpo"
+
+task_release_phase: main
+
+assets:
+  - description: "gra flappy krak"
+    path: "flappykrak.zip"
+
+display:
+  # nie mam pomyslu gdzie moze byc absolutnie gdziekolwiek
+  icon_coordinates:
+    x:
+    y:
