@@ -1,0 +1,20 @@
+$schema: "../schema.json"
+
+id: "handshake"
+name: "No Handshake, No Flag"
+flag_hash: "2e27b8dcf29a7f1eac9bb4266aa2d0dde00e4955941dae4128187eebfdf31d58"
+difficulty_estimate: "rookie"
+labels:
+  - "misc"
+
+authors:
+  - name: "Norbiros"
+    url: "https://norbiso.dev"
+
+task_release_phase: main
+
+display:
+  # Błękitek
+  icon_coordinates:
+    x: 19.960927937179573
+    y: 50.057328549129224
