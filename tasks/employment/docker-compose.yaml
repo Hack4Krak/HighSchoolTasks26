@@ -1,0 +1,15 @@
+services:
+  employment:
+    image: employment
+    build: .
+    networks:
+      - ctf-services-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.employment.rule=Host(`unemployment-is-over-party.hack4krak.pl`)"
+      - "traefik.http.services.employment.loadbalancer.server.port=3000"
+
+networks:
+  ctf-services-net:
+    external: true
+    name: bridge
