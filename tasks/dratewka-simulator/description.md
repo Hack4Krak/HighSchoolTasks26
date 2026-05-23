@@ -8,7 +8,7 @@
 ## Zadanie
 
 Dla rozluźnienia atmosfery mamy dla Was do zrobienia speedrun Minecrafta. Jak szybko Wam się uda?
-Adres: `hack4krak.pl`
+Adres: `dratewka-simulator.hack4krak.pl`
 
 Flagę dostaniecie, jak tylko przejdziecie grę.
 
