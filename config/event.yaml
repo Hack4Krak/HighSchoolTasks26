@@ -86,5 +86,7 @@ task_release_phases:
   kanar: 2026-05-23T14:00:00+02:00
   # Phase 3 — 1h after lunch ends, afternoon energy injection
   afternoon-day-1: 2026-05-23T16:00:00+02:00
-  # Phase 4 — just after breakfast on day 2
+  # Phase 4 — right after kolacja, night-owl wave
+  evening-day-1: 2026-05-23T21:00:00+02:00
+  # Phase 5 — just after breakfast on day 2
   morning-day-2: 2026-05-24T11:15:00+02:00
