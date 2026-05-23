@@ -6,7 +6,7 @@ flag_hash: "8a53deda6fbb338f2fcc3877994f606637581dc8d3cb8066390fb0b70440c9bc"
 difficulty_estimate: "hard"
 labels:
   - "games"
-  - "reverse engineering"
+  - "reverse_engineering"
 
 authors:
   - name: "wojpo"
@@ -19,7 +19,7 @@ assets:
     path: "rybulbol.zip"
 
 display:
-  # wisła
+  # stawy nad rudawa
   icon_coordinates:
-    x: 19.997955
-    y: 50.053684
+    x: 19.834013
+    y: 50.086336
