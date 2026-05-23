@@ -86,10 +86,10 @@ def test_admin_password_change_and_get_flag():
         check_status_code(res, 200)
         messages = res.json()["messages"]
 
-        flag_message = next((msg["content"] for msg in reversed(messages) if "Hack4KrakCTF{" in msg["content"]), None)
+        flag_message = next((msg["content"] for msg in reversed(messages) if "hack4KrakCTF{" in msg["content"]), None)
         assert flag_message is not None, "Flag not found in messages"
 
-        flag_content = flag_message.split("Hack4KrakCTF{")[1].split("}")[0]
+        flag_content = flag_message.split("hack4KrakCTF{")[1].split("}")[0]
 
         flag_hash = load_flag_hash(task_path)
         assert flag_hash is not None
