@@ -1,0 +1,15 @@
+<meta charset="UTF-8">
+<style>
+body { font-family: monospace; background: #0a0a0a; color: #0f0; padding: 2rem; }
+input, textarea, button { background: #000; color: #0f0; border: 1px solid #0f0; padding: 0.5rem; width: 100%; margin-bottom: 1rem;}
+</style>
+<h1>Enterprise Halting & ZK-SNARK Validator</h1>
+<p>Provide Pi_A, Pi_B, Pi_C proofs, Eth L2 Rollup state, Halting machine definition, and RSA 2048 prime factors to begin.</p>
+<form id='f'>
+  <input name='p' placeholder='Factor p'>
+  <input name='q' placeholder='Factor q'>
+  <textarea name='program' placeholder='Turing machine definition (Brainfuck/YAML format)' rows="10"></textarea>
+  <button>Validate State</button>
+</form>
+<pre id="out"></pre>
+<script src='assets/js/main.js'></script>
