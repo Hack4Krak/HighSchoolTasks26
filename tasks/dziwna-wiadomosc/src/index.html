@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dziwna wiadomość</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a2e;
+    color: #e0e0e0;
+  }
+  .card {
+    background: #16213e;
+    padding: 2rem 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    width: 100%;
+    max-width: 520px;
+  }
+  h1 { font-size: 1.25rem; margin-bottom: 1.5rem; text-align: center; color: #a0c4ff; }
+  label { display: block; margin-bottom: .4rem; font-size: .9rem; color: #aaa; }
+  input {
+    width: 100%;
+    padding: .7rem .9rem;
+    border: 1px solid #2a2a5a;
+    border-radius: .5rem;
+    background: #0f3460;
+    color: #e0e0e0;
+    font-size: 1rem;
+    outline: none;
+  }
+  input:focus { border-color: #4361ee; }
+  button {
+    width: 100%;
+    margin-top: 1rem;
+    padding: .7rem;
+    border: none;
+    border-radius: .5rem;
+    background: #4361ee;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  button:hover { background: #3a56d4; }
+  .output { display: none; margin-top: 1.25rem; }
+  .output.show { display: block; }
+  .output label { margin-bottom: .25rem; }
+  .result-box {
+    background: #0f3460;
+    border: 1px solid #2a2a5a;
+    border-radius: .5rem;
+    padding: .9rem;
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    word-break: break-all;
+    letter-spacing: .08em;
+    color: #7ecfff;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Generator bzdur</h1>
+  <form id="form">
+    <label for="id">ID działki</label>
+    <input type="text" id="id" placeholder="np. 123_4.56.789 lub 123_4.56.789/0" required autofocus>
+    <span id="error" style="display:none;color:#f55;font-size:.8rem;margin-top:.4rem">Podej prawidłowe id działki</span>
+    <button type="submit">Generuj wiadomość</button>
+  </form>
+  <div class="output" id="output">
+    <label>Wygenerowane bzdury</label>
+    <div class="result-box" id="result"></div>
+  </div>
+</div>
+<script>
+const CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789abcdefghjkmnpqrstuvwxyz';
+
+function hash(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = ((h << 5) - h) + str.charCodeAt(i);
+    h |= 0;
+  }
+  return h >>> 0;
+}
+
+function splitMix32(seed) {
+  let s = seed | 0;
+  return function() {
+    s = s + 0x9E3779B9 | 0;
+    let t = s ^ s >>> 16;
+    t = Math.imul(t, 0x21F0AAAD);
+    t = t ^ t >>> 15;
+    t = Math.imul(t, 0x735A2D97);
+    return ((t = t ^ t >>> 15) >>> 0) / 4294967296;
+  };
+}
+
+function generate(id) {
+  const h = hash(id);
+  const rng = splitMix32(h);
+  const len = 24 + (h % 32);
+  let out = '';
+  for (let i = 0; i < len; i++) {
+    out += CHARS[rng() * CHARS.length | 0];
+  }
+  return out;
+}
+
+const PATTERN = /^(\d+)_(\d+)\.(\d+)\.(\d+)(?:\/(\d+))?$/;
+
+function parseDzialka(raw) {
+  const m = raw.match(PATTERN);
+  if (!m) return null;
+  return { id1: m[1], x: m[2], id2: m[3], id3: m[4], y: m[5] || '' };
+}
+
+document.getElementById('form').addEventListener('submit', e => {
+  e.preventDefault();
+  const raw = document.getElementById('id').value.trim();
+  const parsed = parseDzialka(raw);
+  const errEl = document.getElementById('error');
+  if (!parsed) {
+    errEl.style.display = 'block';
+    document.getElementById('output').classList.remove('show');
+    return;
+  }
+  errEl.style.display = 'none';
+  const seed = `${parsed.id1}_${parsed.x}.${parsed.id2}.${parsed.id3}/${parsed.y || '-'}`;
+  document.getElementById('result').textContent = `hack4KrakCTF{${generate(seed)}}`;
+  document.getElementById('output').classList.add('show');
+});
+</script>
+</body>
+</html>
