@@ -47,6 +47,7 @@ test = ["pytest", "pysocks>=1.7.1"]
 testpaths = ["toolbox/tests/", "tasks/*/tests/"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
+addopts = ["--import-mode=importlib"]
 python_functions = ["test_*"]
 # Default timeout for tests (can be overridden per-test with @pytest.mark.timeout(seconds))
 timeout = 15
