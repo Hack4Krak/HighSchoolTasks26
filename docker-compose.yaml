@@ -10,6 +10,7 @@ services:
       - "--providers.docker.network=bridge"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.solr.address=:8983"
+      - "--entrypoints.minecraft-yet-another.address=:25567"
     ports:
       - target: 80
         published: 8000
@@ -19,6 +20,10 @@ services:
         mode: host
       - target: 8983
         published: 8983
+        protocol: tcp
+        mode: ingress
+      - target: 25567
+        published: 25567
         protocol: tcp
         mode: ingress
     volumes:
@@ -36,5 +41,4 @@ networks:
   bridge-net:
     external: true
     name: bridge
-
 
