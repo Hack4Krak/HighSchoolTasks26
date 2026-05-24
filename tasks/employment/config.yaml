@@ -3,7 +3,7 @@ $schema: "../schema.json"
 id: "employment"
 name: "Unemployment is over party"
 flag_hash: "91cec95f9911c44f8e46b00b175771af5fd74afc9345d9000f74c5163cf220f3"
-difficulty_estimate: "easy"
+difficulty_estimate: "hard"
 labels:
   - "web"
 

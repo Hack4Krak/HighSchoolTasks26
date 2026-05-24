@@ -56,7 +56,7 @@ class QuestionnaireFragment : Fragment() {
     private var userEmail = ""
     private var userCity = ""
 
-    private val syncUrl = URL("https://hack4krak.pl:4567/submit")
+    private val syncUrl = URL("https://wolontariusze.hack4krak.pl/submit")
     private val tag = "H4KAndroid"
 
     override fun onCreate(savedInstanceState: Bundle?) {

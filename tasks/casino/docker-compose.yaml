@@ -9,6 +9,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.casino.rule=Host(`casino.hack4krak.pl`)"
       - "traefik.http.services.casino.loadbalancer.server.port=3000"
+
     environment:
       - FLAG=hack4KrakCTF{n1e_0rg4n1z4t0rzy_n13_um13j4_t3g0_r0zw14z4c}
 

@@ -8,7 +8,7 @@ labels:
   - "web"
   - "osint"
 
-task_release_phase: morning-day-2
+task_release_phase: evening-day-1
 
 # I didn't add task authors here, because it would hint the intended solution
 

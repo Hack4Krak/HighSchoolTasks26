@@ -12,7 +12,7 @@ authors:
   - name: "wojpo"
     url: "https://github.com/wojpo"
 
-task_release_phase: morning-day-2
+task_release_phase: evening-day-1
 
 assets:
   - description: "Zmodyfikowana gra rybulból"

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "yetanotherminecraft",
+  "version": "${version}",
+  "name": "Yet Another Minecraft Client",
+  "description": "Fabric client with the attack teleport exploit for Yet Another Minecraft.",
+  "authors": [
+    "Norbiros"
+  ],
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.norbiros.yetanotherminecraft.YetAnotherMinecraftClient"
+    ]
+  },
+  "depends": {
+    "java": ">=21",
+    "minecraft": "${mc_version}",
+    "fabricloader": ">=0.19.2"
+  }
+}

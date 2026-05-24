@@ -10,7 +10,7 @@ Użyliśmy do tego bardzo fajnego narzędzia — [Elasticsearch](https://www.ela
 
 ## Zadanie
 
-Wejdź na stronę https://logs-aint-logging.hack4krak.pl
+Wejdź na stronę https://ucieczka-z-pudelka.hack4krak.pl
 
 Spróbuj włamać się na serwer i przeczytać plik `/flag.txt`?
 

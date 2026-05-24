@@ -1,0 +1,15 @@
+$schema: "../schema.json"
+
+id: "yet-another-minecraft"
+name: "Yet Another Minecraft"
+flag_hash: "cb85f9d3f695879418fa951638f882998ca78a616027a747f4589127b90c4a32"
+difficulty_estimate: "easy"
+labels:
+  - "games"
+
+task_release_phase: morning-day-2
+
+display:
+  icon_coordinates:
+    x: 19.90852
+    y: 50.02526
