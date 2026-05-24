@@ -1,0 +1,28 @@
+$schema: "../schema.json"
+
+id: "dziwna-wiadomosc"
+name: "Dziwna wiadomość"
+flag_hash: "12ae6153610235253f5a07024184a38f03f84f51c21ad9a95420dc1e250125b2"
+difficulty_estimate: "hard"
+labels:
+  - "osint"
+
+authors:
+  - name: "Goteusz"
+    url: "https://github.com/goteusz-maszyk"
+
+task_release_phase: morning-day-2
+
+assets:
+  - description: "Wycinek z lokalnej gazetki"
+    path: "wiadomosc.md"
+  - description: "Domek"
+    path: "domek.png"
+  - description: "Domek, ale widoczny inaczej"
+    path: "air_domek.png"
+
+display:
+  # obwodnica zabierzowa
+  icon_coordinates:
+    x: 19.828863
+    y: 50.110891

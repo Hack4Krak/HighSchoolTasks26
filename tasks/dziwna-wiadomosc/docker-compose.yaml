@@ -1,0 +1,17 @@
+services:
+  dziwna-wiadomosc:
+    image: lipanski/docker-static-website:latest
+    restart: unless-stopped
+    volumes:
+      - ./src:/home/static:ro
+    networks:
+      - ctf-services-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dziwna-wiadomosc.rule=Host(`obwodnica-zabierzowa.hack4krak.pl`)"
+      - "traefik.http.services.dziwna-wiadomosc.loadbalancer.server.port=3000"
+
+networks:
+  ctf-services-net:
+    external: true
+    name: bridge
