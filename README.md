@@ -2,12 +2,6 @@
 
 Tasks for the 3rd edition of Hack4Krak CTF!
 
-> [!CAUTION]
-> This repository contains **solutions** for CTF tasks!\
-> Remember to **never** share this repository with anyone outside the **High School Tasks 26** team!
-> 
-> *If this leaks, I will hunt you down - and you will be forced to use nothing but Windows, Copilot, and Edge for the rest of your tragically short life.*
-
 ## Documentation
 
 You can read about how to configure each task in [STRUCTURE.md](docs/STRUCTURE.md).\
