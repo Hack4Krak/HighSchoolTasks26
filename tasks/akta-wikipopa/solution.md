@@ -2,8 +2,6 @@
 
 Ten task jest wieloetapowy, wykorzystuje zarówno metody kryptografii jak i reverse engineering.
 
-Plik `WPA000001.pdf` zawiera tekst zasłonięty czarnym paskiem. Dokument nie został jednak spłaszczony, dzięki czemu ukryta treść nadal znajduje się w warstwie tekstowej i może zostać łatwo odzyskana, np. poprzez skopiowanie zawartości dokumentu. Jest to błąd znany z rzeczywistych incydentów, m.in. [publikacji części dokumentów przez administrację USA.](https://www.redactable.com/blog/redacted-epstein-files-here-is-what-went-wrong)
-
 Plik `WPA000002.pdf` zawiera wiadomość zaszyfrowaną przy użyciu szyfru podstawieniowego.
 
 Archiwum `WielkiBrat.zip` zawiera aplikację WinForms skompilowaną dla platformy .NET, którą można stosunkowo łatwo zdekompilować i przeanalizować.
@@ -38,7 +36,7 @@ Z tekstu wynika, że sprawa dotyczy czynów zabronionych oznaczonych jako przest
 
 W plikach od `WPA000003.pdf` do `WPA000005.pdf` nie znajdują się żadne istotne informacje - zawierają jedynie zabawne obrazki.
 
-# `WPA000006.pdf`
+### `WPA000006.pdf`
 
 W pliku `WPA000006.pdf` odnajdujemy notatkę wskazującą, że rozpatrywane przestępstwo obejmuje czyny zabronione 1, 2, 6 oraz 7.
 
@@ -66,7 +64,7 @@ print((ascii(slownik[1]) + ascii(slownik[2]) + ascii(slownik[6]) + ascii(slownik
 ```
 Wychodzi nam z tego - 415385161
 
-# Końcówka zadania
+### Końcówka zadania
 
 Wyliczyliśmy osobne wartości kar za wszystkie przestępstwa `415385161, 86304100, 58936329`
 
