@@ -1,6 +1,6 @@
 ## Opis
 
-Ten task jest wieloetapowy, wykorzystuje zarówno metody kryptografii jak i reverse engineering.
+To zadanie jest wieloetapowe. Wykorzystuje zarówno metody kryptograficzne, jak i reverse engineering.
 
 Plik `WPA000002.pdf` zawiera wiadomość zaszyfrowaną przy użyciu szyfru podstawieniowego.
 
@@ -10,15 +10,15 @@ Archiwum `WielkiBrat.zip` zawiera aplikację WinForms skompilowaną dla platform
 
 ### Przygotowanie
 
-Zapoznajemy sie z plikiem `ThePrawo.pdf` - dowiadujemy się, że przestępstwo może składać się z kilku czynów zabronionych jeżeli były wykonane w tym samym czasie, a długość kary możemy obliczyć programem `wielkiBrat.exe` natomiast nie jest on w stanie obliczyć przestępstwa składającego się z więcej niż 2 czynów zabronionych.
+Zapoznajemy się z plikiem `ThePrawo.pdf`. Dowiadujemy się, że przestępstwo może składać się z kilku czynów zabronionych, jeżeli zostały wykonane w tym samym czasie. Długość kary możemy obliczyć programem `wielkiBrat.exe`, który nie jest jednak w stanie obsłużyć przestępstwa składającego się z więcej niż dwóch czynów zabronionych.
 
-Dowiadujemy się również, że końcowa kara to iloczyn wszystkich przestępstw danej osoby
+Dowiadujemy się również, że końcowa kara to iloczyn kar za wszystkie przestępstwa danej osoby.
 
 ### `WPA000001.pdf`
 
-PDF ten został ocenzurowany natomiast nie został spłaszczony co pozwala zwyczajnie skopiować treść tego dokumentu przekleić ją gdzie indziej i normalnie przeczytać.
+PDF został ocenzurowany, ale nie spłaszczony. Można więc skopiować treść dokumentu, wkleić ją w innym miejscu i normalnie przeczytać.
 
-Klikamy `ctrl + a` i `ctrl + c`, wklejamy treść i zapoznając się z nią wyciągamy id czynów zabronionych przestępstwa: 3 i 7 - liczymy lata programem `WielkiBrat.exe` i wychodzi nam 58936329 lat
+Naciskamy `Ctrl+A` i `Ctrl+C`, wklejamy treść i odczytujemy identyfikatory czynów zabronionych: 3 i 7. Obliczamy karę programem `WielkiBrat.exe` i otrzymujemy 58936329 lat.
 
 ### `WPA000002.pdf`
 
@@ -30,7 +30,7 @@ Dzięki rekonstrukcji podstawień możliwe było stopniowe odszyfrowanie całego
 
 Z tekstu wynika, że sprawa dotyczy czynów zabronionych oznaczonych jako przestępstwo 1 i 2.
 
-`WielkiBrat.exe`: 86304100 lat
+Program `WielkiBrat.exe` zwraca 86304100 lat.
 
 ### `WPA000003.pdf - WPA000005.pdf`
 
@@ -46,12 +46,13 @@ Na podstawie analizy środowiska wykonawczego można ustalić, że aplikacja zos
 
 W kolejnym kroku ekstraktujemy zawartość pliku wykonywalnego za pomocą narzędzia `sfextract`, uzyskując zestaw komponentów aplikacji, w tym główną bibliotekę `.dll`. Następnie analizujemy ją w narzędziu `JetBrains DotPeek`, które pozwala zdekompilować kod zarządzany .NET do czytelnej postaci zbliżonej do C#.
 
-Analiza zdekompilowanej logiki wskazuje, że aplikacja korzysta ze słownika, w którym kluczem jest identyfikator czynu zabronionego, a wartością jego opis. Kluczowym elementem obliczeń jest suma wartości ASCII wszystkich znaków w opisie danego czynu.
+Analiza zdekompilowanej logiki wskazuje, że aplikacja korzysta ze słownika, w którym kluczem jest identyfikator czynu zabronionego, a wartością — jego opis. Kluczowym elementem obliczeń jest suma wartości ASCII wszystkich znaków w opisie danego czynu.
 
-Na tej podstawie rekonstruujemy wzór używany do obliczania kary dla dwóch czynów: `(słownik[id1]+slownik[id2])*(slownik[id1]+slownik[id2])`
+Na tej podstawie rekonstruujemy wzór używany do obliczania kary dla dwóch czynów: `(slownik[id1] + slownik[id2]) * (slownik[id1] + slownik[id2])`.
 
 Następnie rozszerzamy go na przypadek czterech czynów i obliczamy wynik za pomocą prostego skryptu w Pythonie:
-```
+
+```python
 slownik = (skopiowany slownik)
 
 def ascii(n):
@@ -62,10 +63,11 @@ def ascii(n):
 
 print((ascii(slownik[1]) + ascii(slownik[2]) + ascii(slownik[6]) + ascii(slownik[7]))**2)
 ```
-Wychodzi nam z tego - 415385161
+
+Otrzymujemy `415385161`.
 
 ### Końcówka zadania
 
-Wyliczyliśmy osobne wartości kar za wszystkie przestępstwa `415385161, 86304100, 58936329`
+Wyliczyliśmy osobne wartości kar za wszystkie przestępstwa: `415385161`, `86304100` i `58936329`.
 
-Zatem liczymy iloczyn tych kar i dostajemy flagę: `2112834536082418221972900`
+Następnie obliczamy iloczyn tych kar i otrzymujemy flagę: `2112834536082418221972900`.

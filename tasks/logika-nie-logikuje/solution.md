@@ -1,3 +1,11 @@
+## Opis
+
+Zadanie było najzwyczajniejszym przykładem bramek logicznych. Istniało wiele
+możliwości wykonania go: od ręcznego rysowania diagramu, przez użycie symulatorów bramek logicznych, aż po zastosowanie
+zaawansowanych narzędzi takich jak [Z3](https://en.wikipedia.org/wiki/Z3_Theorem_Prover).
+
+## Rozwiązanie
+
 ![](./solution/solution.png)
 
 Po rozwiązaniu zadania otrzymywaliśmy ciąg:

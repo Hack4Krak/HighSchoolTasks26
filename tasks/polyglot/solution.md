@@ -24,7 +24,7 @@ Po uruchomieniu otrzymujemy flagę:
 hack4KrakCTF{n4jl3p5zy_j3zyk_pr0gr4m0w4n14_t0_5p4cj4}
 ```
 
-## Informacje dodatkowe
+### Informacje dodatkowe
 
 Widoczny kod Pythona był red herringiem. Miał sugerować dekodowanie, hashowanie i odzyskiwanie danych, ale nie był potrzebny do rozwiązania.
 

@@ -1,3 +1,7 @@
+## Opis
+
+Zadanie polegało na wypełnieniu ankiety podsumowującej wydarzenie.
+
 ## Rozwiązanie
 
-Tu chyba nie ma wiele do tłumaczenia, po prostu trzeba było wypełnić ankietę przed końcem czasu.
+Należało wypełnić ankietę przed upływem wyznaczonego czasu.

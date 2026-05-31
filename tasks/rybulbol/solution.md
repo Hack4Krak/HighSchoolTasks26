@@ -1,12 +1,13 @@
 ## Opis
 
-Mamy tutaj doczynienia z grą, której nie da sie przejść
+Mamy tutaj do czynienia z grą, której nie da się przejść.
 
-Żeby otrzymać flagę będziemy zajrzeć w głąb do kodu gry i go zmodyfikować - np. za pomocą narzędzia [dnSpy](https://github.com/dnSpy/dnSpy/releases/)
+Aby otrzymać flagę, należy zajrzeć do kodu gry i go zmodyfikować, np. za pomocą narzędzia [dnSpy](https://github.com/dnSpy/dnSpy/releases/).
 
 ## Rozwiązanie
-1. Otwieramy `rybulból_Data\Managed\Assembly-CSharp.dll` w dnSpy
-2. Czytając kod napotykamy się na dziwną zmienną z bezsensowną nazwą, która jest `GameObject`'em i uaktywnia się po tym jak score osiągnie `-863437832`
-3. Patchujemy grę, żeby sprawdzić o co chodzi i uaktywniamy tą zmienną, po wejściu do gry ukazuję się flagą ale gra się od razu zamyka
-4. Screenujemy flagę albo znajdujemy i patchujemy kod, który zamyka automatycznie grę jak `GameObject` z flagą jest aktywny
-5. Uzyskujemy flagę na ekranie
+
+1. Otwieramy `rybulból_Data\Managed\Assembly-CSharp.dll` w dnSpy.
+2. Czytając kod, napotykamy zmienną o nietypowej nazwie. Jest ona obiektem `GameObject` i aktywuje się, gdy wynik osiągnie `-863437832`.
+3. Modyfikujemy grę, aby aktywować tę zmienną. Po wejściu do gry ukazuje się flaga, ale gra od razu się zamyka.
+4. Robimy zrzut ekranu albo odnajdujemy i modyfikujemy kod, który automatycznie zamyka grę, gdy `GameObject` z flagą jest aktywny.
+5. Odczytujemy flagę z ekranu.

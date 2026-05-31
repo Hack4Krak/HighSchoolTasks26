@@ -1,7 +1,7 @@
-## Zadanie
-Zadanie pochodziło z JustCtf2025, które podczas trwania wydarzenia rozwiązała tylko jedna drużyna.
+## Opis
+
+Zadanie pochodziło z JustCTF 2025. Podczas tamtego wydarzenia rozwiązała je tylko jedna drużyna.
 
 ## Rozwiązanie
-Ogólnie to sami nie wiemy jak to rozwiązać... podobno jest to coś z race condition. Opus mielił godzinę i stwierdził że nie umie...
 
-Wiec jak to rozwiązałeś to gratulację.
+Zadanie celowo pochodziło z wyjątkowo trudnego CTF-a. Chcieliśmy sprawdzić, jak poradzicie sobie z nim przy wsparciu współczesnych modeli AI oraz jak duży postęp zrobiły te narzędzia.
