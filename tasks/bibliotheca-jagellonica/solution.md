@@ -1,5 +1,3 @@
-# Bibliotheca Jagellonica - rozwiązanie
-
 ## Opis
 
 Zadanie udaje nieskończoną bibliotekę w duchu Borgesa. Pierwsze etapy są krótkimi manuskryptami `.txt`, które uczą gracza, że katalog nie pokazuje wszystkiego, a tekst trzeba czytać jako palimpsest.
@@ -8,7 +6,9 @@ Kluczowy mechanizm: `lorem.txt` ujawnia dwa odsyłacze jednocześnie — jeden d
 
 `Range` jest mechaniką finalną. Dopiero ostatnia księga deklaruje 37 TB i wymaga czytania małych fragmentów.
 
-## Etap 1: prolog i Verulam
+## Rozwiązanie
+
+### Etap 1: prolog i Verulam
 
 W katalogu widać `prolog.txt` oraz `buffalo.txt`. Prolog wspomina Buffalo i kanclerza z Verulamu. Verulam prowadzi do Francisa Bacona, a więc do szyfru Bacona.
 
@@ -24,7 +24,7 @@ To wskazuje ukrytą księgę w tym samym woluminie:
 /library/0123456789abcdef0123456789abcdef/wall/2/shelf/4/volume/17/book/lorem.txt
 ```
 
-## Etap 2: palimpsest lorem — dwie ścieżki
+### Etap 2: palimpsest lorem — dwie ścieżki
 
 `lorem.txt` zawiera kanon oraz odpis. Porównujemy oba akapity. Różnice między kanonem a odpisem dają:
 
@@ -50,7 +50,7 @@ Na marginesie `lorem.txt` widnieje również bezpośredni odsyłacz do zapieczę
 /library/0ddba11ad0ddba11ad0ddba11ad0ddba11ad/wall/1/shelf/2/volume/9/book/cipher.txt
 ```
 
-## Etap 3: tablica pi i księga wędrowna
+### Etap 3: tablica pi i księga wędrowna
 
 `pi.txt` wygląda jak długi zapis cyfr pi. Niektóre znaki nie są jednak cyframi. Wyciągnięcie znaków spoza alfabetu dziesiętnego z bloku liczby daje:
 
@@ -72,7 +72,7 @@ curl -H 'Accept-Language: la' 'https://bibliotheca-jagellonica.hack4krak.pl/libr
 
 Pojawia się ścieżka do `headers.txt`.
 
-## Etap 4: karta bez tresci widzialnej
+### Etap 4: karta bez treści widzialnej
 
 `headers.txt` mówi, że odsyłacz widzi tylko posłaniec niosący odpowiedź. Trzeba sprawdzić nagłówki HTTP:
 
@@ -86,7 +86,7 @@ Nagłówek `Link` wskazuje bezpośrednio finalną księgę:
 /library/ffffffffffffffffffffffffffffffff/wall/4/shelf/5/volume/32/book/umbra.txt
 ```
 
-## Etap 5: odszyfrowanie cipher.txt
+### Etap 5: odszyfrowanie `cipher.txt`
 
 Gracz wraca do `cipher.txt` z etapu 2. `lorem.txt` powiedział, że "Babel jest kluczem do obcego alfabetu", a `cipher.txt` mówi "zdejmij metaliczny atrament" (hex) i że klucz jest wspólny z tym, który otwierał obcy alfabet.
 
@@ -101,7 +101,7 @@ Otrzymujemy:
 FINAL /library/ffffffffffffffffffffffffffffffff/wall/4/shelf/5/volume/32/book/umbra.txt ; sufiks 512 ; potem czytaj karty z konca: BABEL 13371337:13, E 27182818:10, PI 31415926:9, FI 16180339:11, KRAKOW 42424242:13.
 ```
 
-## Etap 6: księga 37 TB
+### Etap 6: księga 37 TB
 
 To pierwszy moment, w którym potrzebny jest HTTP `Range`. Finalna księga deklaruje 37 TB i odmawia pełnego pobrania. Czytamy tylko końcówkę:
 
@@ -131,7 +131,7 @@ Zamieniamy je na zakresy bajtów:
 
 Po złożeniu fragmentów dostajemy flagę.
 
-## Flaga
+### Flaga
 
 ```text
 hack4KrakCTF{c4t4l0gu5_in_umbra_ranges_non_legunt_totum}

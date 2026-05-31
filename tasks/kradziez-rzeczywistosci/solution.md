@@ -6,15 +6,15 @@ Modyfikacja dodaje walidację klucza licencyjnego. Program oczekuje argumentu `-
 
 ## Rozwiązanie
 
-Otwórz binarkę w narzędziu typu Binary Ninja, IDA lub Ghidra. Odnajdź funkcję `verify_license` - można do niej trafić przez wyszukanie stringa `Invalid license key`.
+Otwórz plik binarny w narzędziu typu Binary Ninja, IDA lub Ghidra. Odnajdź funkcję `verify_license` — można do niej trafić przez wyszukanie ciągu znaków `Invalid license key`.
 
-W okolicy wykonań o id 014de62f znajdujemy ogromną ilość porównań na pojedynczych bajtach zmiennej - są to sprawdzenia kolejnych liter w kluczu licencyjnym. Jeśli zatem literka po literce wyciągniemy te znaki, otrzymamy
+W okolicy instrukcji o adresie `014de62f` znajdujemy wiele porównań pojedynczych bajtów zmiennej. Są to sprawdzenia kolejnych znaków klucza licencyjnego. Odczytując je po kolei, otrzymamy:
 
 ```
-l0uiZ-cO-ty-RObIsZ-j@-z-t0bOm-OsZaIeleEeEeE
+l0uiZ-cO-ty-RObIsZ-j@-z-t0bom-OsZaIeleEeEeE
 ```
 
-## Użycie
+### Użycie
 
 Program uruchamiamy z kluczem:
 

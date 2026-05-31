@@ -31,12 +31,6 @@ curl -XPOST 'http://localhost:9200/_search?pretty' -H 'Content-Type: application
 '
 ```
 
-Pole `script` nie powinno być wykonywane, a jest i dzięki temu możemy wykonać dowolną komendę. 
+Pole `script` nie powinno być wykonywane, a jest i dzięki temu możemy wykonać dowolną komendę.
 W naszym przypadku jest to `cat /flag.txt` - czyli wyświetlenie zawartości tego pliku.
 
-### Podsumowanie
-
-W cyberbezpieczeństwie nie zawsze trzeba samemu odkrywać podatności.
-Istnieją bazy takie jak CVE, które dokumentują znane luki.
-
-Aby zautomatyzować ich wyszukiwanie i wykorzystanie, można korzystać z narzędzi takich jak [Metasploit](https://www.metasploit.com/), które umożliwiają testowanie wielu podatności.

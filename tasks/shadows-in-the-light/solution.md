@@ -26,6 +26,6 @@ Po otwarciu obrazu okazuje się, że został on zmodyfikowany — przedstawiona 
 
 To jednak dopiero pierwszy etap zadania. Po dokładniejszym przyjrzeniu się szacie postaci można zauważyć ukrytą flagę z lekko zmodyfikowanymi kolorami. Zmieniając jasność, kontrast lub stosując prosty post-processing obrazu, można bez problemu odczytać jej treść.
 
-## Informacje dodatkowe
+### Informacje dodatkowe
 
 *Nikt wciąż nie zna prawdziwej historii Kościoła Mariackiego...*

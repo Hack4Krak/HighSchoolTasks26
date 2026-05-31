@@ -18,14 +18,18 @@ Jest to klasyczny przykład błędu projektowego prowadzącego do łatwej eskala
 
 Po zalogowaniu się do systemu przy użyciu danych logowania z zadania otrzymujemy następujące cookie:
 
-```eyJ1c2VybmFtZSI6ImthbmFyenljYV9oYWxpbmEiLCJpc0FkbWluIjpmYWxzZX0%3D```
+```text
+eyJ1c2VybmFtZSI6ImthbmFyenljYV9oYWxpbmEiLCJpc0FkbWluIjpmYWxzZX0%3D
+```
 
-Ze względu na standardy przesyłania danych w sieci (HTTP) cookie jest kodowane w 
+Ze względu na standardy przesyłania danych w sieci (HTTP) cookie jest kodowane w
 formacie URL, co oznacza że znak `=` jest przedstawiony jako `%3D`
 
 Po odkodowaniu URL otrzymujemy:
 
-```eyJ1c2VybmFtZSI6ImthbmFyenljYV9oYWxpbmEiLCJpc0FkbWluIjpmYWxzZX0=```
+```text
+eyJ1c2VybmFtZSI6ImthbmFyenljYV9oYWxpbmEiLCJpc0FkbWluIjpmYWxzZX0=
+```
 
 Następnie dekodujemy ten tekst za pomocą [Base64](https://en.wikipedia.org/wiki/Base64), co daje nam obiekt JSON:
 
@@ -33,11 +37,13 @@ Następnie dekodujemy ten tekst za pomocą [Base64](https://en.wikipedia.org/wik
 {"username":"kanarzyca_halina","isAdmin":false}
 ```
 
-Teraz wystarczy zmienić wartość pola `isAdmin` na `true` i ponownie zakodować 
+Teraz wystarczy zmienić wartość pola `isAdmin` na `true` i ponownie zakodować
 dane w Base64 (w większości przeglądarek nie trzeba ponownie kodować URL)
 
-```eyJ1c2VybmFtZSI6ImthbmFyenljYV9oYWxpbmEiLCJpc0FkbWluIjp0cnVlfQ==```
+```
+eyJ1c2VybmFtZSI6ImthbmFyenljYV9oYWxpbmEiLCJpc0FkbWluIjp0cnVlfQ==
+```
 
-Po odświeżeniu strony z tym zmodyfikowanym cookie uzyskujemy dostęp do panelu 
+Po odświeżeniu strony z tym zmodyfikowanym cookie uzyskujemy dostęp do panelu
 administratora, gdzie znajduje się flaga zadania (na flagę należało zaczekać minutę
 lub edytować plik JS).

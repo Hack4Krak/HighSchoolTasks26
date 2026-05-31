@@ -1,10 +1,10 @@
 ## Opis
 
-Otrzymaliście aplikację na Androida, która zbiera odpowiedzi na pytania, a co 5 pytań ma szansę się scrashować.
+Otrzymaliście aplikację na Androida, która zbiera odpowiedzi na pytania, a co pięć pytań może ulec awarii.
 
-Poza wieloma błędami aplikacja miała ważną funkcję: przesyłała odpowiedzi do serwera, w tym pole `total` oznaczające ilość pytań na które dana osoba odpowiedziała.
+Poza wieloma błędami aplikacja miała ważną funkcję: przesyłała odpowiedzi do serwera, w tym pole `total` oznaczające liczbę pytań, na które dana osoba odpowiedziała.
 
-Modyfikując lub przesyłając samemu zestaw odpowiedzi można zmanipulować pole `total` tak, by ustawić w nim potrzebną ilość odpowiedzi, czyli `100`.
+Modyfikując lub samodzielnie przesyłając zestaw odpowiedzi, można zmanipulować pole `total` tak, by ustawić w nim potrzebną liczbę odpowiedzi, czyli `100`.
 
 ## Rozwiązanie
 
@@ -43,4 +43,4 @@ Po przechwyceniu komunikacji można zauważyć, że przesyła ona takie dane na 
 }
 ```
 
-Gdy jednak wyśle się żądanie na ten adres z `total` >= 100, co aplikacja zrobiłaby po odpowiedzeniu na 100 pytań w odpowiedzi od serwera dostajemy naszą flagę.
+Gdy wyślemy żądanie na ten adres z wartością `total >= 100`, czyli takie, jakie aplikacja wysłałaby po udzieleniu odpowiedzi na 100 pytań, w odpowiedzi serwera otrzymamy flagę.

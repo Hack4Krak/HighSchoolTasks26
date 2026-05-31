@@ -44,7 +44,7 @@ hack4KrakCTF{C4LL-1-800-H4K-7OW}
 Organizatorom nie udało się rozwiązać tego zadania całkowicie autonomicznie z użyciem modeli językowych.
 Jeśli Tobie się udało, koniecznie pochwal się tym na naszym Discordzie!
 
-## Informacje dodatkowe
+### Informacje dodatkowe
 
 Główna piosenka: **Taco Hemingway - Wielkomiejska Bezsenność**
 
