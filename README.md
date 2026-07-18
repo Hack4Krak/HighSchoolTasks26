@@ -16,8 +16,7 @@
 </div>
 
 > [!NOTE]
-> **This edition has finished. The repository is archived.**
-> It now stands as a complete record of every task, its configuration, and an official write-up. Browse, learn, and reproduce.
+> This repository contains the tasks and solutions from Hack4Krak CTF 2026. The event has ended and the repository is archived.
 
 ## By the numbers
 
@@ -46,11 +45,11 @@
   </tr>
 </table>
 
-<p align="center"><em>Over <strong>30 hours</strong> of non-stop hacking across two days.</em></p>
+<p align="center"><em>The event lasted over <strong>30 hours</strong> and took place across two days.</em></p>
 
 ## Task catalog
 
-Every task links to its **description** (the prompt players saw) and its **write-up** (how it was meant to be cracked).
+Each task includes its original **description** and a **solution**.
 
 | Task | Category | Difficulty | Write-up |
 | :--- | :--- | :--- | :---: |
@@ -92,29 +91,17 @@ Every task links to its **description** (the prompt players saw) and its **write
 
 ## Development
 
-This repository follows the layout defined by [Hack4Krak/TasksTemplate](https://github.com/Hack4Krak/TasksTemplate/). Visit it for the technical background, or browse the [`docs/`](docs/) directory.
-
-| Path | What's inside |
-| :--- | :--- |
-| [`tasks/`](tasks/) | Configuration, source, tests & write-up for every task |
-| [`config/`](config/) | Configuration for the specific CTF event (timeline, labels, deployments) |
-| [`toolbox/`](toolbox/) | Our custom CLI for working with this repository |
-| [`docs/`](docs/) | Documentation — [structure](docs/STRUCTURE.md), [testing](docs/TESTING.md) & [deployment](docs/DEPLOYMENT.md) |
-
-Running the **Hack4Krak Toolbox** locally:
+To run the tasks locally:
 
 ```shell
-# 1. Download all required dependencies
 uv sync
-
-# 2. Run the CLI
-uv run toolbox
+uv run toolbox services up
 ```
 
-Got questions about tasks, configuration, or deployment? Join our [Discord](https://discord.gg/ASPqckzEd8). We'll be happy to help.
+For more information, check the [`docs/`](docs/) directory or ask us on [Discord](https://discord.gg/ASPqckzEd8).
 
 ## Credits
 
 Tasks were made by the [Hack4Krak team](https://hack4krak.pl/about_us): [Norbiros](https://norbiros.dev), [wojpo](https://github.com/wojpo), [Goteusz](https://github.com/goteusz-maszyk), [Sanielia](https://sanielia.dev) & [P0m1d00r](https://github.com/P0m1d00r).
 
-Huge thanks to them for grinding out all the tasks down to the very last second, and thank **you** for participating. See you next edition!
+Huge thanks to them for creating all the tasks, and thank **you** for participating. See you next edition!
