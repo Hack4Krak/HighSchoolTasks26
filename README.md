@@ -15,6 +15,12 @@
 >
 > All challenges are written in Polish (🇵🇱), as it was the target language of the event.
 
+<p align="center">
+  <img src="docs/assets/tasks-map.webp" width="720">
+</p>
+
+<p align="center"><em>Tasks placed on a map of Cracow (hack4krak.pl)</em></p>
+
 ## By the numbers
 
 <table align="center">
